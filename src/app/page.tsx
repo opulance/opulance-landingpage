@@ -9,48 +9,60 @@ import CTA from "@/components/layout/CTA";
 import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/layout/Chatbot";
 import AnimatedCursor from '@/components/ui/AnimatedCursor';
-import { motion } from 'framer-motion';
+import MouseTrail from '@/components/ui/MouseTrail';
+import RippleEffect from '@/components/ui/RippleEffect';
+import SectionDivider from '@/components/ui/SectionDivider';
+import ScrollReveal from '@/components/ui/ScrollReveal';
+import FloatingElements from '@/components/ui/FloatingElements';
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <AnimatedCursor color="#14b8a6" />
+      <MouseTrail />
+      <RippleEffect />
       <Header />
+
       <main>
+        {/* Hero Section */}
         <Hero />
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        
+        {/* Divider with down direction */}
+        <SectionDivider direction="down" />
+        
+        {/* Features Section */}
+        <ScrollReveal>
+          <FloatingElements variant="dots" count={8} zIndex={1} />
           <Features />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        </ScrollReveal>
+        
+        {/* Divider with up direction */}
+        <SectionDivider direction="up" />
+        
+        {/* Technology Showcase */}
+        <ScrollReveal direction="right" delay={0.2}>
+          <FloatingElements variant="squares" count={6} zIndex={1} />
           <FeatureShowcase />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        </ScrollReveal>
+        
+        {/* Divider with down direction */}
+        <SectionDivider direction="down" />
+        
+        {/* Testimonials and Case Studies */}
+        <ScrollReveal direction="left" delay={0.1}>
+          <FloatingElements variant="mixed" count={10} zIndex={1} />
           <Testimonials />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        </ScrollReveal>
+        
+        {/* Divider with up direction */}
+        <SectionDivider direction="up" />
+        
+        {/* Call to Action */}
+        <ScrollReveal direction="up" delay={0.2}>
           <CTA />
-        </motion.div>
+        </ScrollReveal>
       </main>
+      
       <Footer />
       <Chatbot />
     </div>

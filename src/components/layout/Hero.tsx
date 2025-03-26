@@ -112,7 +112,7 @@ const Hero = () => {
                     <p className="text-xl">Please save the tree image to:</p>
                     <p className="font-mono mt-2 mb-4">public/images/ai-tree.png</p>
                     <div className="w-40 h-40 mx-auto rounded-full bg-teal-500/20 animate-pulse"></div>
-                  </div>
+              </div>
                 </div>
               ) : (
                 <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
@@ -128,8 +128,8 @@ const Hero = () => {
                       priority
                       onError={() => setImageError(true)}
                     />
-                  </div>
-                </div>
+              </div>
+            </div>
               )}
             </motion.div>
           </motion.div>

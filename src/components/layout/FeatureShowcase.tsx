@@ -11,12 +11,27 @@ interface TechLine {
   rotation: string;
 }
 
+interface TechElement {
+  id: number;
+  x: string;
+  y: string;
+  size: number;
+  shape: 'circle' | 'square' | 'triangle';
+  opacity: number;
+  delay: number;
+}
+
 const FeatureShowcase = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [techLines, setTechLines] = useState<TechLine[]>([]);
+  const [techElements, setTechElements] = useState<TechElement[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
   
-  // Generate tech pattern lines on client side only
+  // Generate tech pattern lines and floating elements on client side only
   useEffect(() => {
+    setIsMounted(true);
+    
+    // Generate lines
     const lines = Array.from({ length: 10 }).map((_, i) => ({
       id: i,
       width: `${20 + i * 5}%`,
@@ -25,7 +40,20 @@ const FeatureShowcase = () => {
       rotation: `${i * 5}deg`
     }));
     
+    // Generate floating tech elements
+    const shapes: Array<'circle' | 'square' | 'triangle'> = ['circle', 'square', 'triangle'];
+    const elements = Array.from({ length: 8 }).map((_, i) => ({
+      id: i,
+      x: `${Math.random() * 80 + 10}%`,
+      y: `${Math.random() * 80 + 10}%`,
+      size: Math.random() * 20 + 10,
+      shape: shapes[Math.floor(Math.random() * shapes.length)],
+      opacity: Math.random() * 0.3 + 0.1,
+      delay: i % 3 // 0, 1, or 2
+    }));
+    
     setTechLines(lines);
+    setTechElements(elements);
   }, []);
   
   const showcases = [
@@ -64,10 +92,68 @@ const FeatureShowcase = () => {
     }
   ];
 
+  // Return empty div on server
+  if (!isMounted) {
+    return <section className="py-24 bg-gray-950"></section>;
+  }
+
   return (
     <section className="py-24 bg-gray-950 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute w-full h-full inset-0 bg-gradient-to-b from-black to-transparent opacity-50 pointer-events-none"></div>
+      
+      {/* Floating tech elements */}
+      {techElements.map((element) => (
+        <div
+          key={element.id}
+          className={`absolute pointer-events-none z-10 ${
+            element.delay === 0 
+              ? 'animate-float' 
+              : element.delay === 1 
+                ? 'animate-float-delay-1' 
+                : 'animate-float-delay-2'
+          }`}
+          style={{
+            left: element.x,
+            top: element.y,
+            opacity: element.opacity
+          }}
+        >
+          {element.shape === 'circle' && (
+            <div 
+              className="border border-teal-500/20 rounded-full"
+              style={{ 
+                width: `${element.size}px`, 
+                height: `${element.size}px`,
+                background: 'radial-gradient(circle, rgba(20, 184, 166, 0.1) 0%, rgba(20, 184, 166, 0) 70%)'
+              }}
+            />
+          )}
+          
+          {element.shape === 'square' && (
+            <div 
+              className="border border-teal-500/20 rotate-45"
+              style={{ 
+                width: `${element.size}px`, 
+                height: `${element.size}px`,
+                background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(20, 184, 166, 0) 70%)'
+              }}
+            />
+          )}
+          
+          {element.shape === 'triangle' && (
+            <div 
+              style={{ 
+                width: 0,
+                height: 0,
+                borderLeft: `${element.size / 2}px solid transparent`,
+                borderRight: `${element.size / 2}px solid transparent`,
+                borderBottom: `${element.size}px solid rgba(20, 184, 166, 0.1)`,
+              }}
+            />
+          )}
+        </div>
+      ))}
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">

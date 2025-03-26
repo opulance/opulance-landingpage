@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import AccentBox from '@/components/ui/AccentBox';
 
 const testimonials = [
   {
@@ -143,10 +144,11 @@ const Testimonials = () => {
           
           <div className="grid md:grid-cols-3 gap-8">
             {caseStudies.map((caseStudy, index) => (
-              <motion.div
+              <AccentBox
                 key={index}
-                className="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.1)]"
-                whileHover={{ y: -10 }}
+                animate={true}
+                hoverEffect="glow"
+                className="overflow-hidden"
               >
                 <div className="h-48 bg-gray-800 relative">
                   {/* This would be replaced with actual images */}
@@ -177,7 +179,7 @@ const Testimonials = () => {
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </AccentBox>
             ))}
           </div>
           

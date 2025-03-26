@@ -227,3 +227,106 @@
 .card-accent-hover {
   @apply hover:border-teal-500/30 hover:bg-teal-900/20 transition-all;
 }
+
+/* Section dividers */
+.section-divider {
+  position: relative;
+  height: 5rem;
+  overflow: hidden;
+  margin-top: -2.5rem;
+  z-index: 10;
+}
+
+.section-divider--up {
+  clip-path: polygon(0 0, 100% 100%, 100% 0, 0 0);
+  background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
+}
+
+.section-divider--down {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+  background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
+}
+
+/* Mouse trail effect */
+.cursor-dot {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease-in-out;
+  z-index: 9999;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.8) 0%, rgba(20, 184, 166, 0) 70%);
+}
+
+/* Floating elements animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 6s ease-in-out 1s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 6s ease-in-out 2s infinite;
+}
+
+/* Hover glow effect */
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 15px rgba(20, 184, 166, 0.6);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #0d9488, #2563eb);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #14b8a6, #3b82f6);
+}
+
+/* Click effect */
+@keyframes clickRipple {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.click-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: clickRipple 0.6s linear;
+  background-color: rgba(20, 184, 166, 0.4);
+}

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
 
   // Handle scroll event to add backdrop when scrolled
   useEffect(() => {
@@ -46,42 +47,52 @@ const Header = () => {
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-blue-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
               <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-300 hover:text-teal-400 transition-colors py-2">
-                  <span>Products</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                <button 
+                  onClick={() => setProductsOpen(!productsOpen)}
+                  className="text-gray-300 hover:text-teal-400 transition-colors py-2 flex items-center"
+                >
+                  Products
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${productsOpen ? 'rotate-180' : ''}`} 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
                 </button>
-                <div className="absolute left-0 top-full hidden pt-2 group-hover:block">
-                  <div className="bg-gray-900/90 backdrop-blur-md border border-gray-800 rounded-lg p-4 w-64 shadow-lg shadow-teal-500/5">
-                    <ul className="space-y-2">
-                      <li>
-                        <Link 
-                          href="#ai-consulting" 
-                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
-                        >
-                          AI Consulting
-                        </Link>
-                      </li>
-                      <li>
-                        <Link 
-                          href="#custom-ai-solutions" 
-                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
-                        >
-                          Custom AI Solutions
-                        </Link>
-                      </li>
-                      <li>
-                        <Link 
-                          href="#ai-integration" 
-                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
-                        >
-                          AI Integration Services
-                        </Link>
-                      </li>
-                    </ul>
+                
+                {/* Dropdown Menu - hover gradient border */}
+                <div 
+                  className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg z-50 overflow-hidden transition-all duration-200 ease-in-out transform origin-top-left ring-accent
+                             ${productsOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                  style={{
+                    background: 'linear-gradient(to right, rgba(20, 184, 166, 0.05), rgba(59, 130, 246, 0.05))',
+                  }}
+                >
+                  <div className="py-1 backdrop-blur-lg border border-teal-500/20 rounded-md">
+                    <Link 
+                      href="#" 
+                      className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                    >
+                      AI Agent Platform
+                    </Link>
+                    <Link 
+                      href="#" 
+                      className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                    >
+                      Analytics Dashboard
+                    </Link>
+                    <Link 
+                      href="#" 
+                      className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                    >
+                      Sentiment Analyzer
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -91,7 +102,7 @@ const Header = () => {
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Portfolio
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-blue-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
               <Link 
@@ -99,7 +110,7 @@ const Header = () => {
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-blue-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
           </div>

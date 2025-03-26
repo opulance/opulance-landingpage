@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import AccentBox from '@/components/ui/AccentBox';
 
 const Features = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -69,25 +70,15 @@ const Features = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
-            <motion.div
+            <AccentBox 
               key={index}
-              className="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-xl p-6 h-full relative overflow-hidden group cursor-pointer"
+              animate={true}
+              hoverEffect="glow"
+              className="p-6 h-full"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              whileHover={{ 
-                y: -5,
-                transition: { duration: 0.2 } 
-              }}
             >
-              {/* Background glow effect */}
-              <div 
-                className={`absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-blue-400 rounded-xl opacity-0 group-hover:opacity-100 blur transition-all duration-300 ${
-                  hoveredIndex === index ? 'opacity-15' : 'opacity-0'
-                }`}
-              />
-              
-              {/* Content */}
-              <div className="relative z-10 flex flex-col h-full">
+              <div className="flex flex-col h-full">
                 <div className={`p-3 rounded-lg w-fit mb-5 transition-colors duration-300 ${
                   hoveredIndex === index ? 'bg-teal-500/30 text-white' : 'bg-teal-500/10 text-teal-500'
                 }`}>
@@ -116,7 +107,7 @@ const Features = () => {
                   </div>
                 </motion.div>
               </div>
-            </motion.div>
+            </AccentBox>
           ))}
         </div>
       </div>
