@@ -93,8 +93,8 @@ const Testimonials = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <div className="flex flex-col md:flex-row md:items-center gap-6">
-                    <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center overflow-hidden">
-                      <div className="text-3xl font-bold text-emerald-400">
+                    <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center overflow-hidden">
+                      <div className="text-3xl font-bold text-teal-400">
                         {testimonials[activeTestimonial].author.charAt(0)}
                       </div>
                     </div>
@@ -106,7 +106,7 @@ const Testimonials = () => {
                       
                       <footer>
                         <div className="font-bold text-white">{testimonials[activeTestimonial].author}</div>
-                        <div className="text-emerald-400">{testimonials[activeTestimonial].title}</div>
+                        <div className="text-teal-400">{testimonials[activeTestimonial].title}</div>
                       </footer>
                     </div>
                   </div>
@@ -120,10 +120,10 @@ const Testimonials = () => {
                 <button
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`h-3 rounded-full transition-all duration-300 ${
                     index === activeTestimonial 
-                      ? 'bg-emerald-400 w-8' 
-                      : 'bg-gray-700 hover:bg-gray-600'
+                      ? 'bg-gradient-to-r from-teal-500 to-blue-400 w-10 shadow-[0_0_10px_rgba(20,184,166,0.5)]' 
+                      : 'bg-gray-700 w-3 hover:bg-teal-500/50'
                   }`}
                   aria-label={`View testimonial ${index + 1}`}
                 />
@@ -145,13 +145,13 @@ const Testimonials = () => {
             {caseStudies.map((caseStudy, index) => (
               <motion.div
                 key={index}
-                className="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.1)]"
+                className="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.1)]"
                 whileHover={{ y: -10 }}
               >
                 <div className="h-48 bg-gray-800 relative">
                   {/* This would be replaced with actual images */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-900/20 to-blue-900/20">
-                    <span className="text-emerald-400 text-lg">Case Study Image</span>
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-900/20 to-blue-900/20">
+                    <span className="text-teal-400 text-lg">Case Study Image</span>
                   </div>
                 </div>
                 
@@ -162,10 +162,19 @@ const Testimonials = () => {
                   <div className="flex justify-between">
                     {caseStudy.stats.map((stat, statIndex) => (
                       <div key={statIndex} className="text-center">
-                        <div className="text-2xl font-bold text-emerald-400">{stat.value}</div>
+                        <div className="text-2xl font-bold text-teal-400">{stat.value}</div>
                         <div className="text-sm text-gray-400">{stat.label}</div>
                       </div>
                     ))}
+                  </div>
+                  
+                  <div className="mt-6 flex justify-center">
+                    <button className="text-teal-400 font-medium text-sm flex items-center group hover:text-teal-300 transition-colors">
+                      View Case Study
+                      <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -173,7 +182,7 @@ const Testimonials = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="px-8 py-3 border border-emerald-500 text-emerald-400 rounded-lg hover:bg-emerald-500/10 transition-all">
+            <button className="btn-accent px-8 py-3 rounded-lg hover:animate-accent-pulse">
               View All Case Studies
             </button>
           </div>

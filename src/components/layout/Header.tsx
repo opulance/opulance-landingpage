@@ -33,7 +33,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-12">
             <Link href="/" className="text-2xl font-bold text-white">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">
+              <span className="text-gradient-accent">
                 Opulance
               </span>
               <span className="ml-1">AI</span>
@@ -43,24 +43,24 @@ const Header = () => {
             <nav className="hidden md:flex space-x-8">
               <Link 
                 href="/" 
-                className="text-gray-300 hover:text-emerald-400 transition-colors py-2 relative group"
+                className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Home
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
               <div className="relative group">
-                <button className="flex items-center space-x-1 text-gray-300 hover:text-emerald-400 transition-colors py-2">
+                <button className="flex items-center space-x-1 text-gray-300 hover:text-teal-400 transition-colors py-2">
                   <span>Products</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
                 </button>
                 <div className="absolute left-0 top-full hidden pt-2 group-hover:block">
-                  <div className="bg-gray-900/90 backdrop-blur-md border border-gray-800 rounded-lg p-4 w-64 shadow-lg shadow-emerald-500/5">
+                  <div className="bg-gray-900/90 backdrop-blur-md border border-gray-800 rounded-lg p-4 w-64 shadow-lg shadow-teal-500/5">
                     <ul className="space-y-2">
                       <li>
                         <Link 
                           href="#ai-consulting" 
-                          className="text-gray-300 hover:text-emerald-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
+                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
                         >
                           AI Consulting
                         </Link>
@@ -68,7 +68,7 @@ const Header = () => {
                       <li>
                         <Link 
                           href="#custom-ai-solutions" 
-                          className="text-gray-300 hover:text-emerald-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
+                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
                         >
                           Custom AI Solutions
                         </Link>
@@ -76,7 +76,7 @@ const Header = () => {
                       <li>
                         <Link 
                           href="#ai-integration" 
-                          className="text-gray-300 hover:text-emerald-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
+                          className="text-gray-300 hover:text-teal-400 block py-2 px-3 rounded-md hover:bg-gray-800/50 transition-colors"
                         >
                           AI Integration Services
                         </Link>
@@ -88,18 +88,18 @@ const Header = () => {
               
               <Link 
                 href="#portfolio" 
-                className="text-gray-300 hover:text-emerald-400 transition-colors py-2 relative group"
+                className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Portfolio
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               
               <Link 
                 href="#contact" 
-                className="text-gray-300 hover:text-emerald-400 transition-colors py-2 relative group"
+                className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
           </div>
@@ -108,7 +108,7 @@ const Header = () => {
           <div className="hidden md:block">
             <Link 
               href="#consultation" 
-              className="px-6 py-2 rounded-md bg-gradient-to-r from-emerald-500 to-green-400 text-black font-bold transition-all hover:shadow-[0_0_10px_rgba(52,211,153,0.7)] hover:scale-105"
+              className="btn-accent px-6 py-2 rounded-md"
             >
               Book an Assessment
             </Link>
@@ -120,7 +120,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-teal-400">
                 <path d="M18 6 6 18"></path>
                 <path d="m6 6 12 12"></path>
               </svg>
@@ -145,35 +145,35 @@ const Header = () => {
           <nav className="flex flex-col space-y-4">
             <Link 
               href="/" 
-              className="text-gray-200 hover:text-emerald-400 transition-colors py-2 border-b border-gray-800 pb-3"
+              className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             
             <div className="py-2 border-b border-gray-800 pb-3">
-              <button className="flex items-center justify-between w-full text-gray-200 hover:text-emerald-400 transition-colors">
+              <button className="flex items-center justify-between w-full text-gray-200 hover:text-teal-400 transition-colors">
                 <span>Products</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
               </button>
               <div className="pl-4 mt-2 space-y-2">
                 <Link 
                   href="#ai-consulting" 
-                  className="text-gray-300 hover:text-emerald-400 block py-2"
+                  className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   AI Consulting
                 </Link>
                 <Link 
                   href="#custom-ai-solutions" 
-                  className="text-gray-300 hover:text-emerald-400 block py-2"
+                  className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Custom AI Solutions
                 </Link>
                 <Link 
                   href="#ai-integration" 
-                  className="text-gray-300 hover:text-emerald-400 block py-2"
+                  className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   AI Integration Services
@@ -183,7 +183,7 @@ const Header = () => {
             
             <Link 
               href="#portfolio" 
-              className="text-gray-200 hover:text-emerald-400 transition-colors py-2 border-b border-gray-800 pb-3"
+              className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
               Portfolio
@@ -191,7 +191,7 @@ const Header = () => {
             
             <Link 
               href="#contact" 
-              className="text-gray-200 hover:text-emerald-400 transition-colors py-2 border-b border-gray-800 pb-3"
+              className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
@@ -201,7 +201,7 @@ const Header = () => {
           <div className="pt-2">
             <Link 
               href="#consultation" 
-              className="block w-full py-3 text-center rounded-md bg-gradient-to-r from-emerald-500 to-green-400 text-black font-bold"
+              className="btn-accent block w-full py-3 text-center rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >
               Book an Assessment

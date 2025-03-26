@@ -84,8 +84,8 @@ const FeatureShowcase = () => {
               key={index}
               className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeTab === index 
-                  ? 'bg-emerald-500 text-black' 
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  ? 'bg-gradient-to-r from-teal-500 to-blue-400 text-black shadow-[0_0_15px_rgba(20,184,166,0.5)]' 
+                  : 'bg-gray-800/80 text-gray-300 hover:bg-gray-700 hover:text-teal-400 border border-gray-700 hover:border-teal-500/30'
               }`}
               onClick={() => setActiveTab(index)}
             >
@@ -109,8 +109,8 @@ const FeatureShowcase = () => {
             <ul className="space-y-4">
               {showcases[activeTab].features.map((feature, index) => (
                 <li key={index} className="flex items-start">
-                  <div className="mr-3 flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                  <div className="mr-3 flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 flex items-center justify-center mt-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-400" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -120,7 +120,7 @@ const FeatureShowcase = () => {
             </ul>
             
             <div className="mt-10">
-              <button className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-400 text-black font-bold rounded-lg hover:shadow-[0_0_15px_rgba(52,211,153,0.6)] transition-all hover:scale-105">
+              <button className="btn-accent px-8 py-3 rounded-lg animated-border hover:animate-accent-pulse">
                 Learn More
               </button>
             </div>
@@ -135,12 +135,12 @@ const FeatureShowcase = () => {
           >
             <div className="relative h-[350px] bg-gray-800 rounded-xl overflow-hidden">
               {/* This would be replaced by actual images */}
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-900/30 to-blue-900/30">
-                <span className="text-emerald-400 text-xl">{showcases[activeTab].title} Image</span>
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-900/30 to-blue-900/30">
+                <span className="text-teal-400 text-xl">{showcases[activeTab].title} Image</span>
               </div>
               
               {/* Decorative elements */}
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-teal-500/10 rounded-full blur-3xl"></div>
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
               
               {/* Tech pattern overlay */}
@@ -148,7 +148,7 @@ const FeatureShowcase = () => {
                 {techLines.map((line) => (
                   <div 
                     key={line.id}
-                    className="absolute bg-emerald-400/30 h-[1px]"
+                    className="absolute bg-teal-400/30 h-[1px]"
                     style={{
                       width: line.width,
                       top: line.top,

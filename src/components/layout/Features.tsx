@@ -81,15 +81,15 @@ const Features = () => {
             >
               {/* Background glow effect */}
               <div 
-                className={`absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-green-400 rounded-xl opacity-0 group-hover:opacity-100 blur transition-all duration-300 ${
-                  hoveredIndex === index ? 'opacity-20' : 'opacity-0'
+                className={`absolute -inset-0.5 bg-gradient-to-r from-teal-500 to-blue-400 rounded-xl opacity-0 group-hover:opacity-100 blur transition-all duration-300 ${
+                  hoveredIndex === index ? 'opacity-15' : 'opacity-0'
                 }`}
               />
               
               {/* Content */}
               <div className="relative z-10 flex flex-col h-full">
-                <div className={`p-3 rounded-lg bg-emerald-500/10 w-fit mb-5 transition-colors duration-300 ${
-                  hoveredIndex === index ? 'bg-emerald-500/20 text-emerald-400' : 'text-emerald-500'
+                <div className={`p-3 rounded-lg w-fit mb-5 transition-colors duration-300 ${
+                  hoveredIndex === index ? 'bg-teal-500/30 text-white' : 'bg-teal-500/10 text-teal-500'
                 }`}>
                   {service.icon}
                 </div>
@@ -107,8 +107,8 @@ const Features = () => {
                     transition: { duration: 0.3 }
                   }}
                 >
-                  <p className="text-gray-400 mb-4 text-sm">{service.details}</p>
-                  <div className="text-emerald-400 font-semibold inline-flex items-center group">
+                  <p className="text-gray-200 mb-4 text-sm">{service.details}</p>
+                  <div className="text-white font-semibold inline-flex items-center group bg-teal-500/20 px-3 py-1.5 rounded-lg">
                     Learn more
                     <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
