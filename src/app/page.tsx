@@ -5,6 +5,7 @@ import FeatureShowcase from "@/components/layout/FeatureShowcase";
 import Testimonials from "@/components/layout/Testimonials";
 import CTA from "@/components/layout/CTA";
 import Footer from "@/components/layout/Footer";
+import Chatbot from "@/components/layout/Chatbot";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <CTA />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }

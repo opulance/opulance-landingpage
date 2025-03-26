@@ -1,119 +1,165 @@
 "use client"
 
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+interface TechLine {
+  id: number;
+  width: string;
+  top: string;
+  left: string;
+  rotation: string;
+}
 
 const FeatureShowcase = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [techLines, setTechLines] = useState<TechLine[]>([]);
+  
+  // Generate tech pattern lines on client side only
+  useEffect(() => {
+    const lines = Array.from({ length: 10 }).map((_, i) => ({
+      id: i,
+      width: `${20 + i * 5}%`,
+      top: `${10 + i * 8}%`,
+      left: `${Math.sin(i) * 20 + 10}%`,
+      rotation: `${i * 5}deg`
+    }));
+    
+    setTechLines(lines);
+  }, []);
+  
+  const showcases = [
+    {
+      title: "Predictive Analytics",
+      description: "Harness the power of AI to predict future trends and make data-driven decisions ahead of market shifts.",
+      features: [
+        "Demand forecasting",
+        "Risk assessment",
+        "Customer behavior prediction",
+        "Resource optimization"
+      ],
+      image: "/images/showcase-analytics.jpg" // Placeholder
+    },
+    {
+      title: "Natural Language Processing",
+      description: "Unlock insights from text data and enable seamless human-computer interaction through advanced NLP.",
+      features: [
+        "Sentiment analysis",
+        "Text classification",
+        "Chatbot development",
+        "Document summarization"
+      ],
+      image: "/images/showcase-nlp.jpg" // Placeholder
+    },
+    {
+      title: "Computer Vision",
+      description: "Implement visual intelligence into your systems to automate inspection, enhance security, and create new experiences.",
+      features: [
+        "Object detection",
+        "Image classification",
+        "Quality control automation",
+        "Visual search capabilities"
+      ],
+      image: "/images/showcase-vision.jpg" // Placeholder
+    }
+  ];
+
   return (
-    <section className="py-20 bg-white overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gray-950 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute w-full h-full inset-0 bg-gradient-to-b from-black to-transparent opacity-50 pointer-events-none"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Streamline your CI/CD pipelines with AI</h2>
-          <div className="max-w-3xl mx-auto">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div className="p-4">
-                <p className="text-gray-700 mb-2">Build 4x faster than the competition. Slash pipeline execution time and accelerate test cycles by up to 80% using ML-based Test Intelligence.</p>
-              </div>
-              <div className="p-4">
-                <p className="text-gray-700 mb-2">Deploy with or without gates. Use gates to control releases or deploy changes to production without requiring manual approvals.</p>
-              </div>
-              <div className="p-4">
-                <p className="text-gray-700 mb-2">Rollback quickly if needed. Leverage AI-assisted deployment verification to automatically rollback a release if a regression is found.</p>
-              </div>
-            </div>
-          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Our Technology</h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Explore our cutting-edge AI technologies that power transformative solutions across industries.
+          </p>
         </div>
         
-        <div className="bg-indigo-50 rounded-xl p-8 md:p-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="md:w-1/2">
-              <h3 className="text-2xl md:text-3xl font-bold mb-6">Any app. Anywhere.</h3>
-              <p className="text-gray-700 mb-8">Deploy services on different platforms</p>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {/* Platform logos */}
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">AWS</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">Azure</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">GCP</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">Kubernetes</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">Lambda</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">OCI</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">Tanzu</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-16">
-                  <span className="font-medium text-gray-700">WinRM</span>
-                </div>
-              </div>
-            </div>
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center mb-12 gap-2">
+          {showcases.map((showcase, index) => (
+            <button
+              key={index}
+              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === index 
+                  ? 'bg-emerald-500 text-black' 
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+              onClick={() => setActiveTab(index)}
+            >
+              {showcase.title}
+            </button>
+          ))}
+        </div>
+        
+        {/* Content */}
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="order-2 md:order-1"
+          >
+            <h3 className="text-3xl font-bold mb-5 text-white">{showcases[activeTab].title}</h3>
+            <p className="text-lg text-gray-300 mb-8">{showcases[activeTab].description}</p>
             
-            <div className="md:w-1/2">
-              <div className="bg-white shadow-lg rounded-lg p-4 md:p-8">
-                <div className="aspect-ratio-[16/9] bg-gray-100 rounded-md mb-4 flex items-center justify-center">
-                  <div className="text-gray-500">Platform Demo Screenshot</div>
-                </div>
-                <h4 className="text-xl font-semibold mb-2">Leverage AI across the SDLC</h4>
-                <p className="text-gray-600">Explore our robust, scalable and intelligent platform that helps you develop, deploy, and operate your software applications.</p>
-              </div>
+            <ul className="space-y-4">
+              {showcases[activeTab].features.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <div className="mr-3 flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-300">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            
+            <div className="mt-10">
+              <button className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-400 text-black font-bold rounded-lg hover:shadow-[0_0_15px_rgba(52,211,153,0.6)] transition-all hover:scale-105">
+                Learn More
+              </button>
             </div>
-          </div>
-        </div>
-        
-        <div className="mt-20">
-          <h3 className="text-2xl md:text-3xl font-bold mb-10 text-center">With a focus on security. At every step.</h3>
+          </motion.div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white shadow-md rounded-lg p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
+          <motion.div
+            key={`image-${activeTab}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="order-1 md:order-2"
+          >
+            <div className="relative h-[350px] bg-gray-800 rounded-xl overflow-hidden">
+              {/* This would be replaced by actual images */}
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-emerald-900/30 to-blue-900/30">
+                <span className="text-emerald-400 text-xl">{showcases[activeTab].title} Image</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">Aggregate security scans in CI/CD pipelines</h4>
-              <p className="text-gray-600">Easily configure and run AppSec scans with Opulance CI/CD stages or standalone mode, integrating with any CI/CD tooling.</p>
-            </div>
-            
-            <div className="bg-white shadow-md rounded-lg p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+              
+              {/* Decorative elements */}
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+              
+              {/* Tech pattern overlay */}
+              <div className="absolute inset-0 opacity-20 pointer-events-none">
+                {techLines.map((line) => (
+                  <div 
+                    key={line.id}
+                    className="absolute bg-emerald-400/30 h-[1px]"
+                    style={{
+                      width: line.width,
+                      top: line.top,
+                      left: line.left,
+                      transform: `rotate(${line.rotation})`,
+                    }}
+                  />
+                ))}
               </div>
-              <h4 className="text-xl font-semibold mb-2">Vulnerability de-duplication and prioritization</h4>
-              <p className="text-gray-600">Get centralized visibility into deduplicated security findings based on projects, pipelines or applications of interest.</p>
             </div>
-            
-            <div className="bg-white shadow-md rounded-lg p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h4 className="text-xl font-semibold mb-2">SBOM orchestration and SLSA attestation</h4>
-              <p className="text-gray-600">SSCA upholds software integrity via attestations aligned with SLSA V1.0, assuring consumers of unaltered, tamper-free software.</p>
-            </div>
-            
-            <div className="bg-white shadow-md rounded-lg p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h4 className="text-xl font-semibold mb-2">AI/ML driven vulnerability remediation</h4>
-              <p className="text-gray-600">Leverage AI enhanced remediation guidance and contextual information to apply the right fixes with minimal triage.</p>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
