@@ -49,16 +49,23 @@ export function getAssetPath(path: string): string {
  * @returns Correctly formatted href path
  */
 export function getLinkPath(href: string): string {
-  // If it's a hash link, external link, or hash-only link, return as is
-  if (href.startsWith('http') || href.startsWith('#') || href === '/') {
-    return href === '/' ? getBasePath() || '/' : href;
+  const basePath = getBasePath();
+  
+  // If it's an anchor link or external link, return as is
+  if (href.startsWith('#') || href.startsWith('http')) {
+    return href;
   }
   
-  // If it's already a complete path with basePath, return as is
-  if (href.startsWith(getBasePath())) {
+  // If it's the root path '/', return just the basePath
+  if (href === '/') {
+    return basePath;
+  }
+  
+  // If the href already includes the basePath, don't add it again
+  if (basePath && href.startsWith(basePath)) {
     return href;
   }
   
   // Otherwise, add the basePath to the href
-  return `${getBasePath()}${href}`;
+  return `${basePath}${href}`;
 }
