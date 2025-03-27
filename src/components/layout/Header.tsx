@@ -39,32 +39,13 @@ const Header = () => {
   
   // Handle click outside of desktop products dropdown to close it
   useEffect(() => {
-    const handleClickOutsideMouse = (event: MouseEvent) => {
-      handleOutsideClick(event);
-    };
-    
-    const handleClickOutsideTouch = (event: TouchEvent) => {
-      // Use the first touch point as the event target
-      if (event.touches.length > 0) {
-        const touch = event.touches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        
-        if (element) {
-          handleOutsideInteraction(element);
-        }
-      }
-    };
-    
-    // Shared logic for both mouse and touch events
-    const handleOutsideInteraction = (targetElement: Element | null) => {
-      if (!targetElement) return;
-      
+    const handleClickOutside = (event: MouseEvent) => {
       // Close desktop products dropdown when clicking outside
       if (
         dropdownRef.current && 
         buttonRef.current && 
-        !dropdownRef.current.contains(targetElement) && 
-        !buttonRef.current.contains(targetElement)
+        !dropdownRef.current.contains(event.target as Node) && 
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setProductsOpen(false);
       }
@@ -73,8 +54,8 @@ const Header = () => {
       if (
         mobileProductsDropdownRef.current && 
         mobileProductsButtonRef.current && 
-        !mobileProductsDropdownRef.current.contains(targetElement) && 
-        !mobileProductsButtonRef.current.contains(targetElement) &&
+        !mobileProductsDropdownRef.current.contains(event.target as Node) && 
+        !mobileProductsButtonRef.current.contains(event.target as Node) &&
         mobileProductsOpen
       ) {
         setMobileProductsOpen(false);
@@ -84,36 +65,17 @@ const Header = () => {
       if (
         mobileMenuRef.current &&
         mobileMenuButtonRef.current &&
-        !mobileMenuRef.current.contains(targetElement) && 
-        !mobileMenuButtonRef.current.contains(targetElement) &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        !mobileMenuButtonRef.current.contains(event.target as Node) &&
         isMenuOpen
       ) {
         setIsMenuOpen(false);
       }
     };
     
-    // Handler for MouseEvent
-    const handleOutsideClick = (event: MouseEvent) => {
-      handleOutsideInteraction(event.target as Element);
-    };
-    
-    // Add event listeners for both mouse and touch
-    document.addEventListener('mousedown', handleClickOutsideMouse);
-    document.addEventListener('touchstart', handleClickOutsideTouch, { passive: true });
-    
-    // Close mobile menu when scrolling down (for better UX on mobile)
-    const handleScroll = () => {
-      if (window.scrollY > 100 && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutsideMouse);
-      document.removeEventListener('touchstart', handleClickOutsideTouch);
-      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isMenuOpen, mobileProductsOpen]);
 

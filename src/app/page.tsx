@@ -9,6 +9,7 @@ import Testimonials from "@/components/layout/Testimonials";
 import CTA from "@/components/layout/CTA";
 import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/layout/Chatbot";
+import AnimatedCursor from '@/components/ui/AnimatedCursor';
 import RippleEffect from '@/components/ui/RippleEffect';
 import SectionDivider from '@/components/ui/SectionDivider';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -17,7 +18,6 @@ import FloatingElements from '@/components/ui/FloatingElements';
 export default function Home() {
   const [effectsEnabled, setEffectsEnabled] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
   
   useEffect(() => {
     setIsMounted(true);
@@ -28,15 +28,9 @@ export default function Home() {
       setEffectsEnabled(savedPreference === 'true');
     }
     
-    // Detect mobile device
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    ) || window.innerWidth < 768;
-    setIsMobileDevice(isMobile);
-    
     // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if ((prefersReducedMotion || isMobile) && savedPreference === null) {
+    if (prefersReducedMotion && savedPreference === null) {
       setEffectsEnabled(false);
     }
   }, []);
@@ -47,14 +41,17 @@ export default function Home() {
     localStorage.setItem('visualEffectsEnabled', newValue.toString());
   };
   
-  // Render ripple effect on all devices when effects are enabled
-  const visualEffects = isMounted && effectsEnabled && (
-    <RippleEffect />
+  // Only render certain components on the client
+  const clientSideEffects = isMounted && effectsEnabled && (
+    <>
+      <AnimatedCursor color="#14b8a6" />
+      <RippleEffect />
+    </>
   );
   
   return (
     <div className="min-h-screen flex flex-col">
-      {visualEffects}
+      {clientSideEffects}
       
       <Header />
       
