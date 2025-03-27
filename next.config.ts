@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
    * Configure base path for GitHub Pages
    * This should match your repository name
    */
-  basePath: "",
+  basePath: "/opulance-landingpage",
   trailingSlash: true,
 
   /**

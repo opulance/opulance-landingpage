@@ -32,9 +32,7 @@ jobs:
       - name: Build with Next.js 🏗️
         run: |
           npm run build
-          mkdir -p out
           touch out/.nojekyll
-          echo "opulance-landingpage.github.io" > out/CNAME
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
