@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 
   /**
+   * Configure image optimization
+   */
+  images: {
+    unoptimized: true
+  },
+
+  /**
    * Disable ESLint during production builds
    */
   eslint: {

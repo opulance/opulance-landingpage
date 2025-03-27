@@ -32,6 +32,7 @@ jobs:
       - name: Build with Next.js 🏗️
         run: |
           npm run build
+          mkdir -p out
           touch out/.nojekyll
           echo "Build output contents:"
           ls -la out/
