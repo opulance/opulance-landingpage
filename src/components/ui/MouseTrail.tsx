@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 const MouseTrail = () => {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [dots, setDots] = useState<Array<{id: number, x: number, y: number, opacity: number}>>([]);
   const idCounterRef = useRef(0);
   const [isMounted, setIsMounted] = useState(false);
@@ -12,8 +11,6 @@ const MouseTrail = () => {
   
   // Memoize the update function to avoid recreating it on each render
   const updateMousePosition = useCallback((e: MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-    
     // Skip effect if user prefers reduced motion
     if (prefersReducedMotion.current) return;
     

@@ -23,21 +23,10 @@ const ParticleBackground = ({
   count = 20 
 }: ParticleBackgroundProps) => {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     // Only run on client
     if (typeof window === 'undefined') return;
-    
-    const updateDimensions = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-    
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
     
     // Generate particles
     const newParticles: Particle[] = [];
@@ -54,8 +43,6 @@ const ParticleBackground = ({
     }
     
     setParticles(newParticles);
-    
-    return () => window.removeEventListener('resize', updateDimensions);
   }, [count]);
 
   return (

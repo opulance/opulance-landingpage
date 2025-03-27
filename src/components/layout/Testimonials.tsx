@@ -102,7 +102,7 @@ const Testimonials = () => {
                     
                     <div>
                       <blockquote className="text-lg md:text-xl text-gray-300 italic mb-4">
-                        "{testimonials[activeTestimonial].quote}"
+                        &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
                       </blockquote>
                       
                       <footer>
