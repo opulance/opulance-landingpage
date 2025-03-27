@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // This script checks if the URL has a duplicated path and redirects to the correct one
+    (function() {
+      // Parse the current URL
+      var path = window.location.pathname;
+      
+      // Check if we have a duplicated path like /opulance-landingpage/opulance-landingpage
+      if (path.includes('/opulance-landingpage/opulance-landingpage')) {
+        // Redirect to the correct path
+        window.location.href = path.replace('/opulance-landingpage/opulance-landingpage', '/opulance-landingpage');
+      } else if (!path.includes('/opulance-landingpage')) {
+        // If somehow we don't have the correct base path, redirect to it
+        window.location.href = '/opulance-landingpage';
+      }
+    })();
+  </script>
+</head>
+<body>
+  <p>Page not found. Redirecting...</p>
+</body>
+</html> 

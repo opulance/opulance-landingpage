@@ -1,22 +1,30 @@
 "use client"
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { getLinkPath } from '@/lib/utils';
 
 const Footer = () => {
+  const [baseUrl, setBaseUrl] = useState('');
+
+  useEffect(() => {
+    // Set the base URL for links
+    setBaseUrl('/opulance-landingpage');
+  }, []);
+
   return (
     <footer id="contact" className="bg-gray-950 text-gray-300 border-t border-gray-800">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="space-y-6">
-            <Link href="/opulance-landingpage" className="inline-block">
+            <a href={baseUrl} className="inline-block">
               <span className="text-2xl font-bold">
                 <span className="text-gradient-accent">
                   Opulance
                 </span>
                 <span className="text-white ml-1">AI</span>
               </span>
-            </Link>
+            </a>
             <p className="text-gray-400">
               Transforming businesses through cutting-edge artificial intelligence solutions tailored to your specific needs.
             </p>

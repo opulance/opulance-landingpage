@@ -8,6 +8,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [baseUrl, setBaseUrl] = useState('');
 
   // Handle scroll event to add backdrop when scrolled
   useEffect(() => {
@@ -20,6 +21,10 @@ const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // Set the base URL for links
+    setBaseUrl('/opulance-landingpage');
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -34,22 +39,22 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href="/opulance-landingpage" className="text-2xl font-bold text-white">
+            <a href={baseUrl} className="text-2xl font-bold text-white">
               <span className="text-gradient-accent">
                 Opulance
               </span>
               <span className="ml-1">AI</span>
-            </Link>
+            </a>
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
-              <Link 
-                href="/opulance-landingpage"
+              <a 
+                href={baseUrl}
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-blue-400 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+              </a>
               
               <div className="relative group">
                 <button 
@@ -156,7 +161,7 @@ const Header = () => {
         <div className="container mx-auto px-4 py-6 space-y-6">
           <nav className="flex flex-col space-y-4">
             <Link 
-              href="/opulance-landingpage"
+              href={baseUrl}
               className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
