@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
    * Enable static exports for GitHub Pages
    */
   output: "export",
-  distDir: "out",
 
   /**
    * Configure base path for GitHub Pages
@@ -15,7 +14,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 
   /**
-   * Disable ESLint during production build
+   * Disable ESLint during production builds
    */
   eslint: {
     ignoreDuringBuilds: true

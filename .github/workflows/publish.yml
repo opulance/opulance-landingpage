@@ -32,14 +32,8 @@ jobs:
       - name: Build with Next.js 🏗️
         run: |
           npm run build
-          pwd
-          ls -la
-          echo "Build output contents:"
-          ls -la .next/
-          echo "Creating .nojekyll file"
-          mkdir -p out
           touch out/.nojekyll
-          echo "Final out directory contents:"
+          echo "Build output contents:"
           ls -la out/
 
       - name: Upload artifact 📡
