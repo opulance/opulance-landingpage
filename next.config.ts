@@ -25,7 +25,12 @@ const nextConfig: NextConfig = {
    */
   eslint: {
     ignoreDuringBuilds: true
-  }
+  },
+  
+  /**
+   * Remove experimental config causing warnings
+   */
+  experimental: {}
 };
 
 export default nextConfig;
