@@ -3,69 +3,102 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AccentBox from '@/components/ui/AccentBox';
+import { getAssetPath } from '@/lib/utils';
 
-const testimonials = [
-  {
-    quote: "Opulance AI's predictive analytics solution has transformed our inventory management, reducing stockouts by 35% and improving customer satisfaction.",
-    author: "Sarah Johnson",
-    title: "CTO, RetailTech Innovations",
-    avatar: "/opulance-landingpage/images/testimonial-1.jpg"
-  },
-  {
-    quote: "The custom NLP model developed by Opulance AI has enabled us to analyze customer feedback at scale, uncovering invaluable insights we were previously missing.",
-    author: "Michael Chen",
-    title: "Head of Data Science, ConsumerFirst",
-    avatar: "/opulance-landingpage/images/testimonial-2.jpg"
-  },
-  {
-    quote: "Implementing Opulance AI's computer vision solution has dramatically improved our quality control process, reducing defects by 42% within the first quarter.",
-    author: "Elena Rodriguez",
-    title: "VP of Operations, ManufacturePro",
-    avatar: "/opulance-landingpage/images/testimonial-3.jpg"
-  }
-];
+interface Testimonial {
+  quote: string;
+  author: string;
+  title: string;
+  avatar: string;
+}
 
-const caseStudies = [
-  {
-    title: "Healthcare Predictive Analytics",
-    description: "Helped a leading hospital network reduce patient readmission rates by 28% using our custom machine learning algorithms.",
-    image: "/opulance-landingpage/images/case-study-1.jpg",
-    stats: [
-      { value: "28%", label: "Reduction in readmissions" },
-      { value: "$3.2M", label: "Annual cost savings" }
-    ]
-  },
-  {
-    title: "Retail Customer Personalization",
-    description: "Developed an AI-powered recommendation engine that increased average order value by 24% for a major e-commerce retailer.",
-    image: "/opulance-landingpage/images/case-study-2.jpg",
-    stats: [
-      { value: "24%", label: "Increase in AOV" },
-      { value: "18%", label: "Higher conversion rate" }
-    ]
-  },
-  {
-    title: "Financial Fraud Detection",
-    description: "Implemented an advanced AI system for a financial services provider that improved fraud detection accuracy by 41%.",
-    image: "/opulance-landingpage/images/case-study-3.jpg",
-    stats: [
-      { value: "41%", label: "Improved detection" },
-      { value: "92%", label: "Reduction in false positives" }
-    ]
-  }
-];
+interface CaseStudy {
+  title: string;
+  description: string;
+  image: string;
+  stats: Array<{
+    value: string;
+    label: string;
+  }>;
+}
 
 const Testimonials = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [testimonialData, setTestimonialData] = useState<Testimonial[]>([]);
+  const [caseStudyData, setCaseStudyData] = useState<CaseStudy[]>([]);
+  
+  // Initialize data with correct paths on client-side
+  useEffect(() => {
+    const testimonials: Testimonial[] = [
+      {
+        quote: "Opulance AI's predictive analytics solution has transformed our inventory management, reducing stockouts by 35% and improving customer satisfaction.",
+        author: "Sarah Johnson",
+        title: "CTO, RetailTech Innovations",
+        avatar: getAssetPath('/images/testimonial-1.jpg')
+      },
+      {
+        quote: "The custom NLP model developed by Opulance AI has enabled us to analyze customer feedback at scale, uncovering invaluable insights we were previously missing.",
+        author: "Michael Chen",
+        title: "Head of Data Science, ConsumerFirst",
+        avatar: getAssetPath('/images/testimonial-2.jpg')
+      },
+      {
+        quote: "Implementing Opulance AI's computer vision solution has dramatically improved our quality control process, reducing defects by 42% within the first quarter.",
+        author: "Elena Rodriguez",
+        title: "VP of Operations, ManufacturePro",
+        avatar: getAssetPath('/images/testimonial-3.jpg')
+      }
+    ];
+
+    const caseStudies: CaseStudy[] = [
+      {
+        title: "Healthcare Predictive Analytics",
+        description: "Helped a leading hospital network reduce patient readmission rates by 28% using our custom machine learning algorithms.",
+        image: getAssetPath('/images/case-study-1.jpg'),
+        stats: [
+          { value: "28%", label: "Reduction in readmissions" },
+          { value: "$3.2M", label: "Annual cost savings" }
+        ]
+      },
+      {
+        title: "Retail Customer Personalization",
+        description: "Developed an AI-powered recommendation engine that increased average order value by 24% for a major e-commerce retailer.",
+        image: getAssetPath('/images/case-study-2.jpg'),
+        stats: [
+          { value: "24%", label: "Increase in AOV" },
+          { value: "18%", label: "Higher conversion rate" }
+        ]
+      },
+      {
+        title: "Financial Fraud Detection",
+        description: "Implemented an advanced AI system for a financial services provider that improved fraud detection accuracy by 41%.",
+        image: getAssetPath('/images/case-study-3.jpg'),
+        stats: [
+          { value: "41%", label: "Improved detection" },
+          { value: "92%", label: "Reduction in false positives" }
+        ]
+      }
+    ];
+    
+    setTestimonialData(testimonials);
+    setCaseStudyData(caseStudies);
+  }, []);
   
   // Auto-rotate testimonials
   useEffect(() => {
+    if (testimonialData.length === 0) return;
+    
     const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+      setActiveTestimonial((prev) => (prev + 1) % testimonialData.length);
     }, 5000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonialData]);
+
+  // If data isn't loaded yet, show a minimal version
+  if (testimonialData.length === 0 || caseStudyData.length === 0) {
+    return <section id="portfolio" className="py-24 bg-gray-950"></section>;
+  }
 
   return (
     <section id="portfolio" className="py-24 bg-gray-950">
@@ -94,18 +127,18 @@ const Testimonials = () => {
                   <div className="flex flex-col md:flex-row md:items-center gap-6">
                     <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center overflow-hidden">
                       <div className="text-3xl font-bold text-teal-400">
-                        {testimonials[activeTestimonial].author.charAt(0)}
+                        {testimonialData[activeTestimonial].author.charAt(0)}
                       </div>
                     </div>
                     
                     <div>
                       <blockquote className="text-lg md:text-xl text-gray-300 italic mb-4">
-                        &ldquo;{testimonials[activeTestimonial].quote}&rdquo;
+                        &ldquo;{testimonialData[activeTestimonial].quote}&rdquo;
                       </blockquote>
                       
                       <footer>
-                        <div className="font-bold text-white">{testimonials[activeTestimonial].author}</div>
-                        <div className="text-teal-400">{testimonials[activeTestimonial].title}</div>
+                        <div className="font-bold text-white">{testimonialData[activeTestimonial].author}</div>
+                        <div className="text-teal-400">{testimonialData[activeTestimonial].title}</div>
                       </footer>
                     </div>
                   </div>
@@ -115,7 +148,7 @@ const Testimonials = () => {
             
             {/* Testimonial Navigation */}
             <div className="flex justify-center mt-8 space-x-2">
-              {testimonials.map((_, index) => (
+              {testimonialData.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveTestimonial(index)}
@@ -141,7 +174,7 @@ const Testimonials = () => {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {caseStudies.map((caseStudy, index) => (
+            {caseStudyData.map((caseStudy, index) => (
               <AccentBox
                 key={index}
                 animate={true}

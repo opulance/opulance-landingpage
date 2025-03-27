@@ -3,11 +3,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ParticleBackground from '@/components/ui/ParticleBackground';
+import { getAssetPath } from '@/lib/utils';
 
 const Hero = () => {
   const [imageError, setImageError] = useState(false);
+  const [imagePath, setImagePath] = useState('');
+
+  // Set image path on client-side
+  useEffect(() => {
+    setImagePath(getAssetPath('/images/ai-tree.png'));
+  }, []);
 
   return (
     <section className="h-screen flex items-center relative overflow-hidden">
@@ -118,7 +125,7 @@ const Hero = () => {
                 <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
                   <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
                     <Image
-                      src="/opulance-landingpage/images/ai-tree.png"
+                      src={imagePath || '/images/ai-tree.png'}
                       alt="AI Knowledge Tree"
                       fill
                       className="object-contain z-0 scale-105"

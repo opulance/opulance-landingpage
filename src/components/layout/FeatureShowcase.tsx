@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getAssetPath } from '@/lib/utils';
 
 interface TechLine {
   id: number;
@@ -21,15 +22,62 @@ interface TechElement {
   delay: number;
 }
 
+interface Showcase {
+  title: string;
+  description: string;
+  features: string[];
+  image: string;
+}
+
 const FeatureShowcase = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [techLines, setTechLines] = useState<TechLine[]>([]);
   const [techElements, setTechElements] = useState<TechElement[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [showcasesData, setShowcasesData] = useState<Showcase[]>([]);
   
   // Generate tech pattern lines and floating elements on client side only
   useEffect(() => {
     setIsMounted(true);
+    
+    // Initialize showcases with correct paths
+    const showcases = [
+      {
+        title: "Predictive Analytics",
+        description: "Harness the power of AI to predict future trends and make data-driven decisions ahead of market shifts.",
+        features: [
+          "Demand forecasting",
+          "Risk assessment",
+          "Customer behavior prediction",
+          "Resource optimization"
+        ],
+        image: getAssetPath('/images/showcase-analytics.jpg')
+      },
+      {
+        title: "Natural Language Processing",
+        description: "Unlock insights from text data and enable seamless human-computer interaction through advanced NLP.",
+        features: [
+          "Sentiment analysis",
+          "Text classification",
+          "Chatbot development",
+          "Document summarization"
+        ],
+        image: getAssetPath('/images/showcase-nlp.jpg')
+      },
+      {
+        title: "Computer Vision",
+        description: "Implement visual intelligence into your systems to automate inspection, enhance security, and create new experiences.",
+        features: [
+          "Object detection",
+          "Image classification",
+          "Quality control automation",
+          "Visual search capabilities"
+        ],
+        image: getAssetPath('/images/showcase-vision.jpg')
+      }
+    ];
+    
+    setShowcasesData(showcases);
     
     // Generate lines
     const lines = Array.from({ length: 10 }).map((_, i) => ({
@@ -56,44 +104,8 @@ const FeatureShowcase = () => {
     setTechElements(elements);
   }, []);
   
-  const showcases = [
-    {
-      title: "Predictive Analytics",
-      description: "Harness the power of AI to predict future trends and make data-driven decisions ahead of market shifts.",
-      features: [
-        "Demand forecasting",
-        "Risk assessment",
-        "Customer behavior prediction",
-        "Resource optimization"
-      ],
-      image: "/opulance-landingpage/images/showcase-analytics.jpg" // Updated with basePath
-    },
-    {
-      title: "Natural Language Processing",
-      description: "Unlock insights from text data and enable seamless human-computer interaction through advanced NLP.",
-      features: [
-        "Sentiment analysis",
-        "Text classification",
-        "Chatbot development",
-        "Document summarization"
-      ],
-      image: "/opulance-landingpage/images/showcase-nlp.jpg" // Updated with basePath
-    },
-    {
-      title: "Computer Vision",
-      description: "Implement visual intelligence into your systems to automate inspection, enhance security, and create new experiences.",
-      features: [
-        "Object detection",
-        "Image classification",
-        "Quality control automation",
-        "Visual search capabilities"
-      ],
-      image: "/opulance-landingpage/images/showcase-vision.jpg" // Updated with basePath
-    }
-  ];
-
   // Return empty div on server
-  if (!isMounted) {
+  if (!isMounted || showcasesData.length === 0) {
     return <section className="py-24 bg-gray-950"></section>;
   }
 
@@ -165,7 +177,7 @@ const FeatureShowcase = () => {
         
         {/* Tabs */}
         <div className="flex flex-wrap justify-center mb-12 gap-2">
-          {showcases.map((showcase, index) => (
+          {showcasesData.map((showcase, index) => (
             <button
               key={index}
               className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
@@ -189,11 +201,11 @@ const FeatureShowcase = () => {
             transition={{ duration: 0.5 }}
             className="order-2 md:order-1"
           >
-            <h3 className="text-3xl font-bold mb-5 text-white">{showcases[activeTab].title}</h3>
-            <p className="text-lg text-gray-300 mb-8">{showcases[activeTab].description}</p>
+            <h3 className="text-3xl font-bold mb-5 text-white">{showcasesData[activeTab].title}</h3>
+            <p className="text-lg text-gray-300 mb-8">{showcasesData[activeTab].description}</p>
             
             <ul className="space-y-4">
-              {showcases[activeTab].features.map((feature, index) => (
+              {showcasesData[activeTab].features.map((feature, index) => (
                 <li key={index} className="flex items-start">
                   <div className="mr-3 flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 flex items-center justify-center mt-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-400" viewBox="0 0 20 20" fill="currentColor">
@@ -222,7 +234,7 @@ const FeatureShowcase = () => {
             <div className="relative h-[350px] bg-gray-800 rounded-xl overflow-hidden">
               {/* This would be replaced by actual images */}
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-900/30 to-blue-900/30">
-                <span className="text-teal-400 text-xl">{showcases[activeTab].title} Image</span>
+                <span className="text-teal-400 text-xl">{showcasesData[activeTab].title} Image</span>
               </div>
               
               {/* Decorative elements */}
