@@ -1,125 +1,34 @@
-name: publish-to-github-pages
+name: GitHub Pages deploy
+
 on:
   push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-          
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
-          
-      - name: Build with Next.js
-        run: |
-          npm run build
-          echo "Build complete, contents of current directory:"
-          ls -la
-          
-      - name: Prepare for GitHub Pages
-        run: |
-          # Ensure out directory exists
-          mkdir -p out
-          
-          # Add .nojekyll file
-          touch out/.nojekyll
-          
-          # If build didn't create out correctly, check where the output went
-          if [ "$(find out -type f -not -path "*/\.*" | wc -l)" -lt 1 ]; then
-            echo "Empty out directory. Checking alternative locations..."
-            
-            # If .next directory exists, use its content
-            if [ -d ".next" ]; then
-              echo "Found .next directory:"
-              ls -la .next/
-              
-              # Copy static assets
-              if [ -d ".next/static" ]; then
-                echo "Copying .next/static to out/_next/static"
-                mkdir -p out/_next
-                cp -r .next/static out/_next/
-              fi
-              
-              # Copy any rendered HTML pages
-              if [ -d ".next/server/pages" ]; then
-                echo "Copying .next/server/pages to out"
-                find .next/server/pages -name "*.html" -exec cp {} out/ \;
-              fi
-              
-              # Copy any rendered app router pages
-              if [ -d ".next/server/app" ]; then
-                echo "Copying .next/server/app to out"
-                find .next/server/app -name "*.html" -exec cp {} out/ \;
-              fi
-            fi
-            
-            # Create a basic index.html if none exists
-            if [ ! -f "out/index.html" ]; then
-              echo "Creating basic index.html"
-              cat > out/index.html << EOF
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opulance Landing Page</title>
-  <meta http-equiv="refresh" content="0;URL=/opulance-landingpage/">
-</head>
-<body>
-  <p>Redirecting...</p>
-</body>
-</html>
-EOF
-            fi
-            
-            # Copy public directory contents
-            if [ -d "public" ]; then
-              echo "Copying public directory contents to out"
-              cp -r public/* out/ || true
-            fi
-          fi
-          
-          # Show final contents
-          echo "Final contents of out directory:"
-          find out -type f | sort || echo "No files found"
-          echo "Total files: $(find out -type f | wc -l)"
-          
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: out
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Build
+        run: npm run build
+
+      - name: Create .nojekyll file
+        run: touch out/.nojekyll
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.6.0
+        with:
+          branch: gh-pages
+          folder: out
+          clean: true
