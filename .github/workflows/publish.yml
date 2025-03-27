@@ -31,76 +31,40 @@ jobs:
 
       - name: Build with Next.js 🏗️
         run: |
-          # Clean any existing output
-          rm -rf out
-          
           # Build Next.js project
           npm run build
           
-          # Extended debug output
-          echo "File structure after build:"
-          find . -type d -maxdepth 2 | sort
+          # The build directory should be "out" with Next.js 15 and output: "export"
+          echo "Checking for build output directory..."
+          ls -la
           
-          # Ensure export was created properly, use explicit export if needed
-          if [ -d "out" ] && [ "$(find out -type f -not -path "*/\.*" | wc -l)" -lt 2 ]; then
-            echo "Standard export produced empty or missing out directory, trying explicit export..."
-            # Try explicit export command if the normal build didn't create files
-            npx next export || true
+          # Debug output of build directories
+          echo "Next.js output directories:"
+          find . -name "out" -type d
+          
+          # Copy build output from .next to out if needed
+          if [ ! -d "out" ] || [ "$(find out -maxdepth 1 -type f -not -path "*/\.*" | wc -l)" -lt 1 ]; then
+            echo "Static export directory missing or empty, looking elsewhere..."
+            if [ -d ".next/server/app" ]; then
+              echo "Found .next/server/app, copying..."
+              mkdir -p out
+              cp -r .next/server/app/* out/
+            fi
           fi
-          
-          # Ensure out directory exists
-          mkdir -p out
           
           # Create .nojekyll file
           touch out/.nojekyll
           
-          # Look for the built files in various locations
-          if [ "$(find out -type f -not -path "*/\.*" | wc -l)" -lt 2 ]; then
-            echo "Looking for the exported files in other locations..."
-            
-            # Check if export was created in a different directory
-            if [ -d "_next" ]; then
-              echo "Found _next directory at root, copying..."
-              cp -r _next out/
-            fi
-            
-            if [ -d ".next" ]; then
-              echo "Found .next directory, examining contents..."
-              find .next -type f -maxdepth 3 | head -10
-              
-              if [ -d ".next/static" ]; then
-                echo "Found .next/static, copying to out/_next/static..."
-                mkdir -p out/_next
-                cp -r .next/static out/_next/
-              fi
-            fi
-            
-            # Check for export-related directories
-            for dir in public static assets; do
-              if [ -d "$dir" ]; then
-                echo "Copying $dir directory to out..."
-                cp -r $dir out/
-              fi
-            done
-            
-            # Look for HTML files
-            echo "Looking for HTML files..."
-            find . -name "*.html" -maxdepth 2
-            
-            # Copy HTML files if found
-            find . -name "*.html" -maxdepth 2 -exec cp {} out/ \;
-            
-            # Create a minimal index.html if none exists
-            if [ ! -f "out/index.html" ]; then
-              echo "Creating minimal index.html..."
-              echo '<html><head><meta http-equiv="refresh" content="0;URL=/opulance-landingpage/index.html"></head><body>Redirecting...</body></html>' > out/index.html
-            fi
+          # Copy any static files from public
+          if [ -d "public" ]; then
+            echo "Copying public directory to out..."
+            cp -r public/* out/ || true
           fi
           
           # Final debugging output
           echo "Final out directory contents:"
-          find out -type f | sort
-          echo "Total files in out directory: $(find out -type f | wc -l)"
+          find out -type f -not -path "*/\.*" | sort || echo "No files found in out directory"
+          echo "Total files in out directory: $(find out -type f -not -path "*/\.*" | wc -l)"
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
