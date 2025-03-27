@@ -9,7 +9,6 @@ import Testimonials from "@/components/layout/Testimonials";
 import CTA from "@/components/layout/CTA";
 import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/layout/Chatbot";
-import AnimatedCursor from '@/components/ui/AnimatedCursor';
 import RippleEffect from '@/components/ui/RippleEffect';
 import SectionDivider from '@/components/ui/SectionDivider';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -41,12 +40,9 @@ export default function Home() {
     localStorage.setItem('visualEffectsEnabled', newValue.toString());
   };
   
-  // Only render certain components on the client
+  // Only render RippleEffect on the client
   const clientSideEffects = isMounted && effectsEnabled && (
-    <>
-      <AnimatedCursor color="#14b8a6" />
-      <RippleEffect />
-    </>
+    <RippleEffect />
   );
   
   return (
