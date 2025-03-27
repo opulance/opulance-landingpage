@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
   },
   
   /**
-   * Remove experimental config causing warnings
+   * Clean experimental config
    */
   experimental: {}
 };
