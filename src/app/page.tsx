@@ -19,6 +19,7 @@ import FloatingElements from '@/components/ui/FloatingElements';
 export default function Home() {
   const [effectsEnabled, setEffectsEnabled] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
   
   useEffect(() => {
     setIsMounted(true);
@@ -29,9 +30,15 @@ export default function Home() {
       setEffectsEnabled(savedPreference === 'true');
     }
     
+    // Detect mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) || window.innerWidth < 768;
+    setIsMobileDevice(isMobile);
+    
     // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion && savedPreference === null) {
+    if ((prefersReducedMotion || isMobile) && savedPreference === null) {
       setEffectsEnabled(false);
     }
   }, []);
@@ -42,18 +49,23 @@ export default function Home() {
     localStorage.setItem('visualEffectsEnabled', newValue.toString());
   };
   
-  // Only render certain components on the client
-  const clientSideEffects = isMounted && effectsEnabled && (
+  // Only render cursor effects on desktop
+  const cursorEffects = isMounted && effectsEnabled && !isMobileDevice && (
     <>
       <AnimatedCursor color="#14b8a6" />
       <MouseTrail />
-      <RippleEffect />
     </>
+  );
+  
+  // Render ripple effect on all devices
+  const universalEffects = isMounted && effectsEnabled && (
+    <RippleEffect />
   );
   
   return (
     <div className="min-h-screen flex flex-col">
-      {clientSideEffects}
+      {cursorEffects}
+      {universalEffects}
       
       <Header />
       
