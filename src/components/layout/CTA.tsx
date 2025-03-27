@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { getLinkPath } from '@/lib/utils';
 
 const CTA = () => {
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
@@ -35,7 +36,7 @@ const CTA = () => {
               Book a free 30-minute consultation call with our AI experts to discuss your specific needs.
             </p>
             <Link 
-              href="#consultation" 
+              href={getLinkPath('#consultation')}
               className="btn-accent inline-block px-8 py-4 rounded-lg text-lg"
             >
               Book Your Free Consultation
@@ -51,7 +52,7 @@ const CTA = () => {
         }`}
       >
         <Link 
-          href="#consultation" 
+          href={getLinkPath('#consultation')}
           className="flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-teal-500 to-blue-400 text-black font-bold shadow-lg shadow-teal-500/20 hover:shadow-[0_0_15px_rgba(20,184,166,0.6)] hover:scale-105 transition-all"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

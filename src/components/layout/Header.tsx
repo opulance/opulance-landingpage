@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { getLinkPath } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +34,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href="/opulance-landingpage" className="text-2xl font-bold text-white">
+            <Link href={getLinkPath('/')} className="text-2xl font-bold text-white">
               <span className="text-gradient-accent">
                 Opulance
               </span>
@@ -43,7 +44,7 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
               <Link 
-                href="/opulance-landingpage" 
+                href={getLinkPath('/')}
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Home
@@ -76,19 +77,19 @@ const Header = () => {
                 >
                   <div className="py-1 backdrop-blur-lg border border-teal-500/20 rounded-md">
                     <Link 
-                      href="#" 
+                      href={getLinkPath('#ai-platform')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
                     >
                       AI Agent Platform
                     </Link>
                     <Link 
-                      href="#" 
+                      href={getLinkPath('#analytics')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
                     >
                       Analytics Dashboard
                     </Link>
                     <Link 
-                      href="#" 
+                      href={getLinkPath('#sentiment')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
                     >
                       Sentiment Analyzer
@@ -98,7 +99,7 @@ const Header = () => {
               </div>
               
               <Link 
-                href="#portfolio" 
+                href={getLinkPath('#portfolio')}
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Portfolio
@@ -106,7 +107,7 @@ const Header = () => {
               </Link>
               
               <Link 
-                href="#contact" 
+                href={getLinkPath('#contact')}
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Contact
@@ -118,7 +119,7 @@ const Header = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Link 
-              href="#consultation" 
+              href={getLinkPath('#consultation')}
               className="btn-accent px-6 py-2 rounded-md"
             >
               Book an Assessment
@@ -155,7 +156,7 @@ const Header = () => {
         <div className="container mx-auto px-4 py-6 space-y-6">
           <nav className="flex flex-col space-y-4">
             <Link 
-              href="/opulance-landingpage" 
+              href={getLinkPath('/')}
               className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -169,21 +170,21 @@ const Header = () => {
               </button>
               <div className="pl-4 mt-2 space-y-2">
                 <Link 
-                  href="#ai-consulting" 
+                  href={getLinkPath('#ai-consulting')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   AI Consulting
                 </Link>
                 <Link 
-                  href="#custom-ai-solutions" 
+                  href={getLinkPath('#custom-ai-solutions')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Custom AI Solutions
                 </Link>
                 <Link 
-                  href="#ai-integration" 
+                  href={getLinkPath('#ai-integration')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -193,7 +194,7 @@ const Header = () => {
             </div>
             
             <Link 
-              href="#portfolio" 
+              href={getLinkPath('#portfolio')}
               className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -201,7 +202,7 @@ const Header = () => {
             </Link>
             
             <Link 
-              href="#contact" 
+              href={getLinkPath('#contact')}
               className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -211,7 +212,7 @@ const Header = () => {
           
           <div className="pt-2">
             <Link 
-              href="#consultation" 
+              href={getLinkPath('#consultation')}
               className="btn-accent block w-full py-3 text-center rounded-md"
               onClick={() => setIsMenuOpen(false)}
             >

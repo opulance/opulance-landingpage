@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import ParticleBackground from '@/components/ui/ParticleBackground';
-import { getAssetPath } from '@/lib/utils';
+import { getAssetPath, getLinkPath } from '@/lib/utils';
 
 const Hero = () => {
   const [imageError, setImageError] = useState(false);
@@ -80,13 +80,13 @@ const Hero = () => {
                 transition={{ duration: 0.7, delay: 1.2 }}
               >
                 <Link 
-                  href="#contact" 
+                  href={getLinkPath('#contact')}
                   className="px-6 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-blue-400 text-black font-bold text-base transition-all hover:shadow-[0_0_15px_rgba(20,184,166,0.8)] hover:scale-105 border border-teal-500/50 animated-border"
                 >
                   Book a Consultation
                 </Link>
                 <Link 
-                  href="#services" 
+                  href={getLinkPath('#services')}
                   className="px-6 py-3 rounded-lg bg-black text-white border border-gray-700 font-medium text-base hover:bg-gray-900 transition-all backdrop-blur-sm"
                 >
                   Explore Services

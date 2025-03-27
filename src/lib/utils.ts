@@ -39,3 +39,26 @@ export function getAssetPath(path: string): string {
   }
   return `${basePath}${path}`;
 }
+
+/**
+ * Gets the correct href path for navigation links
+ * - Handles full paths by adding basePath
+ * - Preserves hash links and anchor links as is
+ * 
+ * @param href The original href path
+ * @returns Correctly formatted href path
+ */
+export function getLinkPath(href: string): string {
+  // If it's a hash link, external link, or hash-only link, return as is
+  if (href.startsWith('http') || href.startsWith('#') || href === '/') {
+    return href === '/' ? getBasePath() || '/' : href;
+  }
+  
+  // If it's already a complete path with basePath, return as is
+  if (href.startsWith(getBasePath())) {
+    return href;
+  }
+  
+  // Otherwise, add the basePath to the href
+  return `${getBasePath()}${href}`;
+}
