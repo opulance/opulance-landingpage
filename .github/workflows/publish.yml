@@ -30,9 +30,16 @@ jobs:
           static_site_generator: next
 
       - name: Build with Next.js 🏗️
+        run: npm run build
+
+      - name: Create .nojekyll file 📄
         run: |
-          npm run build
-          touch out/.nojekyll
+          if [ -d "out" ]; then
+            touch out/.nojekyll
+          else
+            echo "out directory not found"
+            exit 1
+          fi
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3

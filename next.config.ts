@@ -14,15 +14,6 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 
   /**
-   * Configure image optimization for static export
-   */
-  images: {
-    loader: 'custom',
-    loaderFile: './image-loader.ts',
-    unoptimized: true
-  },
-
-  /**
    * Disable ESLint during production build
    * since we're deploying to GitHub Pages
    */
