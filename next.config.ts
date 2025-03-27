@@ -17,8 +17,9 @@ const nextConfig: NextConfig = {
    * Configure image optimization for static export
    */
   images: {
-    unoptimized: true,
-    remotePatterns: []
+    loader: 'custom',
+    loaderFile: './image-loader.ts',
+    unoptimized: true
   },
 
   /**
