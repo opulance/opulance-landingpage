@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
   output: "export",
 
   /**
+   * Configure base path for GitHub Pages
+   * This should match your repository name
+   */
+  basePath: "/opulance-landingpage",
+  assetPrefix: "/opulance-landingpage/",
+
+  /**
    * Configure image optimization for static export
    */
   images: {
