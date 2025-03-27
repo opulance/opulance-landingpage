@@ -9,8 +9,6 @@ import Testimonials from "@/components/layout/Testimonials";
 import CTA from "@/components/layout/CTA";
 import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/layout/Chatbot";
-import AnimatedCursor from '@/components/ui/AnimatedCursor';
-import MouseTrail from '@/components/ui/MouseTrail';
 import RippleEffect from '@/components/ui/RippleEffect';
 import SectionDivider from '@/components/ui/SectionDivider';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -49,23 +47,14 @@ export default function Home() {
     localStorage.setItem('visualEffectsEnabled', newValue.toString());
   };
   
-  // Only render cursor effects on desktop
-  const cursorEffects = isMounted && effectsEnabled && !isMobileDevice && (
-    <>
-      <AnimatedCursor color="#14b8a6" />
-      <MouseTrail />
-    </>
-  );
-  
-  // Render ripple effect on all devices
-  const universalEffects = isMounted && effectsEnabled && (
+  // Render ripple effect on all devices when effects are enabled
+  const visualEffects = isMounted && effectsEnabled && (
     <RippleEffect />
   );
   
   return (
     <div className="min-h-screen flex flex-col">
-      {cursorEffects}
-      {universalEffects}
+      {visualEffects}
       
       <Header />
       

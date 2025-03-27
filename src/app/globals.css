@@ -247,7 +247,8 @@
   background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
 }
 
-/* Mouse trail effect */
+/* Mouse trail effect - REMOVED FROM APPLICATION */
+/* Keeping the CSS for reference but this feature is no longer active */
 .cursor-dot {
   position: fixed;
   border-radius: 50%;
@@ -259,7 +260,7 @@
   background: radial-gradient(circle, rgba(20, 184, 166, 0.8) 0%, rgba(20, 184, 166, 0) 70%);
 }
 
-/* Floating elements animation */
+/* Floating elements animation - ACTIVE */
 @keyframes float {
   0% {
     transform: translateY(0px) rotate(0deg);
