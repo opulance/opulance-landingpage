@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div className="space-y-6">
-            <Link href="/" className="inline-block">
+            <Link href="/opulance-landingpage" className="inline-block">
               <span className="text-2xl font-bold">
                 <span className="text-gradient-accent">
                   Opulance

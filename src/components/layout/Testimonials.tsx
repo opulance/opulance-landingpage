@@ -9,19 +9,19 @@ const testimonials = [
     quote: "Opulance AI's predictive analytics solution has transformed our inventory management, reducing stockouts by 35% and improving customer satisfaction.",
     author: "Sarah Johnson",
     title: "CTO, RetailTech Innovations",
-    avatar: "/images/testimonial-1.jpg" // Placeholder, would be replaced with actual images
+    avatar: "/opulance-landingpage/images/testimonial-1.jpg"
   },
   {
     quote: "The custom NLP model developed by Opulance AI has enabled us to analyze customer feedback at scale, uncovering invaluable insights we were previously missing.",
     author: "Michael Chen",
     title: "Head of Data Science, ConsumerFirst",
-    avatar: "/images/testimonial-2.jpg"
+    avatar: "/opulance-landingpage/images/testimonial-2.jpg"
   },
   {
     quote: "Implementing Opulance AI's computer vision solution has dramatically improved our quality control process, reducing defects by 42% within the first quarter.",
     author: "Elena Rodriguez",
     title: "VP of Operations, ManufacturePro",
-    avatar: "/images/testimonial-3.jpg"
+    avatar: "/opulance-landingpage/images/testimonial-3.jpg"
   }
 ];
 
@@ -29,7 +29,7 @@ const caseStudies = [
   {
     title: "Healthcare Predictive Analytics",
     description: "Helped a leading hospital network reduce patient readmission rates by 28% using our custom machine learning algorithms.",
-    image: "/images/case-study-1.jpg",
+    image: "/opulance-landingpage/images/case-study-1.jpg",
     stats: [
       { value: "28%", label: "Reduction in readmissions" },
       { value: "$3.2M", label: "Annual cost savings" }
@@ -38,7 +38,7 @@ const caseStudies = [
   {
     title: "Retail Customer Personalization",
     description: "Developed an AI-powered recommendation engine that increased average order value by 24% for a major e-commerce retailer.",
-    image: "/images/case-study-2.jpg",
+    image: "/opulance-landingpage/images/case-study-2.jpg",
     stats: [
       { value: "24%", label: "Increase in AOV" },
       { value: "18%", label: "Higher conversion rate" }
@@ -47,7 +47,7 @@ const caseStudies = [
   {
     title: "Financial Fraud Detection",
     description: "Implemented an advanced AI system for a financial services provider that improved fraud detection accuracy by 41%.",
-    image: "/images/case-study-3.jpg",
+    image: "/opulance-landingpage/images/case-study-3.jpg",
     stats: [
       { value: "41%", label: "Improved detection" },
       { value: "92%", label: "Reduction in false positives" }

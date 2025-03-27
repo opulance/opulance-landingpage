@@ -118,7 +118,7 @@ const Hero = () => {
                 <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
                   <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
                     <Image
-                      src="/images/ai-tree.png"
+                      src="/opulance-landingpage/images/ai-tree.png"
                       alt="AI Knowledge Tree"
                       fill
                       className="object-contain z-0 scale-105"

@@ -66,7 +66,7 @@ const FeatureShowcase = () => {
         "Customer behavior prediction",
         "Resource optimization"
       ],
-      image: "/images/showcase-analytics.jpg" // Placeholder
+      image: "/opulance-landingpage/images/showcase-analytics.jpg" // Updated with basePath
     },
     {
       title: "Natural Language Processing",
@@ -77,7 +77,7 @@ const FeatureShowcase = () => {
         "Chatbot development",
         "Document summarization"
       ],
-      image: "/images/showcase-nlp.jpg" // Placeholder
+      image: "/opulance-landingpage/images/showcase-nlp.jpg" // Updated with basePath
     },
     {
       title: "Computer Vision",
@@ -88,7 +88,7 @@ const FeatureShowcase = () => {
         "Quality control automation",
         "Visual search capabilities"
       ],
-      image: "/images/showcase-vision.jpg" // Placeholder
+      image: "/opulance-landingpage/images/showcase-vision.jpg" // Updated with basePath
     }
   ];
 
