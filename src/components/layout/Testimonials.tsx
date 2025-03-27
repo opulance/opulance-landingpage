@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import AccentBox from '@/components/ui/AccentBox';
 
@@ -58,7 +57,6 @@ const caseStudies = [
 
 const Testimonials = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [activeCaseStudy, setActiveCaseStudy] = useState(0);
   
   // Auto-rotate testimonials
   useEffect(() => {
