@@ -88,7 +88,12 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <a href={baseUrl} className="text-2xl font-bold text-white">
+            <a 
+              href={baseUrl} 
+              className={`text-2xl font-bold text-white transition-opacity duration-300 md:opacity-100 ${
+                isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none md:pointer-events-auto'
+              }`}
+            >
               <span className="text-gradient-accent">
                 Opulance
               </span>
