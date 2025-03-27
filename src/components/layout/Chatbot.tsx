@@ -22,6 +22,28 @@ const Chatbot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [hasNewMessage, setHasNewMessage] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatboxRef = useRef<HTMLDivElement>(null);
+  
+  // Handle click outside to close chatbot
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const handleClickOutside = (e: MouseEvent) => {
+      if (chatboxRef.current && !chatboxRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    
+    // Add delay to prevent immediate closing when opening chatbot
+    const timer = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+    }, 100);
+    
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   // Scroll to bottom of messages whenever messages change
   useEffect(() => {
@@ -85,7 +107,7 @@ const Chatbot = () => {
   return (
     <>
       {/* Chatbot button */}
-      <div className="fixed z-50 bottom-6 right-6">
+      <div className="fixed z-[100] bottom-6 right-6">
         {/* Notification indicator */}
         {hasNewMessage && !isOpen && (
           <motion.div 
@@ -99,47 +121,24 @@ const Chatbot = () => {
         
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex items-center justify-center w-14 h-14 rounded-full shadow-lg ${
-            isOpen ? 'bottom-[370px] bg-gray-700' : 'bg-gradient-to-r from-teal-500 to-blue-400'
-          } transition-all hover:shadow-[0_0_15px_rgba(20,184,166,0.6)] focus:outline-none`}
+          className="flex items-center justify-center w-14 h-14 rounded-full shadow-lg bg-gradient-to-r from-teal-500 to-blue-400 transition-all hover:shadow-[0_0_15px_rgba(20,184,166,0.6)] focus:outline-none"
           aria-label="Toggle chatbot"
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {isOpen ? (
-              <motion.svg
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-white"
-              >
-                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </motion.svg>
-            ) : (
-              <motion.svg
-                key="chat"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-black"
-              >
-                <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </motion.svg>
-            )}
-          </AnimatePresence>
+          <motion.svg
+            key="chat"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className="text-black"
+          >
+            <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </motion.svg>
         </button>
       </div>
 
@@ -147,26 +146,41 @@ const Chatbot = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatboxRef}
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 w-[350px] h-[350px] bg-gray-900 border border-gray-800 rounded-xl shadow-xl z-40 flex flex-col overflow-hidden"
+            className="fixed bottom-6 right-6 w-[350px] h-[350px] bg-gray-900 border border-gray-800 rounded-xl shadow-xl z-[100] flex flex-col overflow-hidden"
           >
             {/* Chat header */}
-            <div className="bg-gray-800 p-4 flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-blue-400 flex items-center justify-center mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-white">Opulance AI Assistant</h3>
-                <div className="flex items-center text-xs text-teal-400">
-                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-1"></span>
-                  Online
+            <div className="bg-gray-800 p-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-500 to-blue-400 flex items-center justify-center mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white">Opulance AI Assistant</h3>
+                  <div className="flex items-center text-xs text-teal-400">
+                    <span className="w-2 h-2 bg-teal-400 rounded-full mr-1"></span>
+                    Online
+                  </div>
                 </div>
               </div>
+              
+              {/* Close button */}
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
+                aria-label="Close chatbot"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                  <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
             
             {/* Chat messages */}
