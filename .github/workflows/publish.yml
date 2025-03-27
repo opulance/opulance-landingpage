@@ -32,20 +32,13 @@ jobs:
       - name: Build with Next.js 🏗️
         run: |
           npm run build
-          ls -la
-          echo "Next.js build directory contents:"
-          ls -la .next/
-          mkdir -p dist
-          cp -r .next/static dist/
-          cp -r public/* dist/
-          touch dist/.nojekyll
-          echo "Final dist directory contents:"
-          ls -la dist/
+          touch out/.nojekyll
+          ls -la out/
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: out
 
   deploy:
     environment:
