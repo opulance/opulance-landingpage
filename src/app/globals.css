@@ -235,15 +235,15 @@
   overflow: hidden;
   margin-top: -2.5rem;
   z-index: 10;
+  background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
 }
 
+/* Remove the clip paths from these classes since we're now handling them inline */
 .section-divider--up {
-  clip-path: polygon(0 0, 100% 100%, 100% 0, 0 0);
   background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
 }
 
 .section-divider--down {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
   background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
 }
 

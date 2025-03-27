@@ -1,44 +1,63 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 const MouseTrail = () => {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [dots, setDots] = useState<Array<{id: number, x: number, y: number, opacity: number}>>([]);
   const idCounterRef = useRef(0);
   const [isMounted, setIsMounted] = useState(false);
+  const lastDotRef = useRef<{x: number, y: number} | null>(null);
+  const prefersReducedMotion = useRef(false);
+  
+  // Memoize the update function to avoid recreating it on each render
+  const updateMousePosition = useCallback((e: MouseEvent) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+    
+    // Skip effect if user prefers reduced motion
+    if (prefersReducedMotion.current) return;
+    
+    // Only create a dot every few pixels moved to reduce performance impact
+    const lastDot = lastDotRef.current;
+    const shouldCreateDot = !lastDot || 
+      Math.abs(e.clientX - lastDot.x) > 15 || 
+      Math.abs(e.clientY - lastDot.y) > 15;
+      
+    if (!shouldCreateDot) return;
+    
+    // Update the last dot reference
+    lastDotRef.current = { x: e.clientX, y: e.clientY };
+    
+    // Add new dot with a unique ID (timestamp + counter)
+    setDots(prev => {
+      idCounterRef.current += 1;
+      const newDots = [...prev, { 
+        id: Date.now() * 1000 + idCounterRef.current, 
+        x: e.clientX, 
+        y: e.clientY,
+        opacity: 1
+      }];
+      
+      // Keep only the latest 8 dots
+      if (newDots.length > 8) {
+        return newDots.slice(newDots.length - 8);
+      }
+      return newDots;
+    });
+  }, []);
   
   useEffect(() => {
     setIsMounted(true);
     
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      // Only create a dot every few pixels moved to reduce performance impact
-      const lastDot = dots[dots.length - 1];
-      const shouldCreateDot = !lastDot || 
-        Math.abs(e.clientX - lastDot.x) > 15 || 
-        Math.abs(e.clientY - lastDot.y) > 15;
-        
-      if (!shouldCreateDot) return;
-      
-      // Add new dot with a unique ID (timestamp + counter)
-      setDots(prev => {
-        idCounterRef.current += 1;
-        const newDots = [...prev, { 
-          id: Date.now() * 1000 + idCounterRef.current, 
-          x: e.clientX, 
-          y: e.clientY,
-          opacity: 1
-        }];
-        
-        // Keep only the latest 8 dots
-        if (newDots.length > 8) {
-          return newDots.slice(newDots.length - 8);
-        }
-        return newDots;
-      });
+    // Check if user prefers reduced motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    prefersReducedMotion.current = mediaQuery.matches;
+    
+    const handleMediaQueryChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotion.current = e.matches;
     };
+    
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
     
     // Fade out dots
     const fadeDots = setInterval(() => {
@@ -53,9 +72,10 @@ const MouseTrail = () => {
     
     return () => {
       document.removeEventListener('mousemove', updateMousePosition, { capture: true });
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
       clearInterval(fadeDots);
     };
-  }, [dots]);
+  }, [updateMousePosition]);
   
   // Only render on the client side
   if (!isMounted) return null;

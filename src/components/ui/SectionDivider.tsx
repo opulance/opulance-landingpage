@@ -4,9 +4,13 @@ import { FC, useState, useEffect } from 'react';
 
 interface SectionDividerProps {
   direction: 'up' | 'down';
+  orientation?: 'left' | 'right' | 'center';
 }
 
-const SectionDivider: FC<SectionDividerProps> = ({ direction }) => {
+const SectionDivider: FC<SectionDividerProps> = ({ 
+  direction,
+  orientation = 'center'
+}) => {
   const [isMounted, setIsMounted] = useState(false);
   const [elements, setElements] = useState<Array<{width: string, height: string, left: string, opacity: number}>>([]);
   
@@ -26,9 +30,33 @@ const SectionDivider: FC<SectionDividerProps> = ({ direction }) => {
   
   // Render nothing on server
   if (!isMounted) return null;
+
+  // Generate different clip paths based on direction and orientation
+  let clipPath = '';
+  
+  if (direction === 'down') {
+    if (orientation === 'left') {
+      clipPath = 'polygon(0 0, 100% 0, 100% 100%, 0 30%)';
+    } else if (orientation === 'right') {
+      clipPath = 'polygon(0 0, 100% 0, 100% 30%, 0 100%)';
+    } else { // center
+      clipPath = 'polygon(0 0, 100% 0, 100% 100%, 0 0)';
+    }
+  } else { // up
+    if (orientation === 'left') {
+      clipPath = 'polygon(0 70%, 100% 0, 100% 100%, 0 100%)';
+    } else if (orientation === 'right') {
+      clipPath = 'polygon(0 0, 100% 70%, 100% 100%, 0 100%)';
+    } else { // center
+      clipPath = 'polygon(0 0, 100% 100%, 100% 0, 0 0)';
+    }
+  }
   
   return (
-    <div className={`section-divider section-divider--${direction}`}>
+    <div 
+      className={`section-divider section-divider--${direction}`}
+      style={{ clipPath }}
+    >
       <div className="absolute inset-0 opacity-30">
         {elements.map((element, index) => (
           <div

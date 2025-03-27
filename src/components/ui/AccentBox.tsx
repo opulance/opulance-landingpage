@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode, MouseEvent } from 'react';
+import { FC, ReactNode, MouseEvent, useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface AccentBoxProps {
@@ -11,6 +11,7 @@ interface AccentBoxProps {
   borderStyle?: 'solid' | 'gradient' | 'none';
   onMouseEnter?: (e: MouseEvent<HTMLDivElement>) => void;
   onMouseLeave?: (e: MouseEvent<HTMLDivElement>) => void;
+  animateOnScroll?: boolean;
 }
 
 const AccentBox: FC<AccentBoxProps> = ({
@@ -20,8 +21,42 @@ const AccentBox: FC<AccentBoxProps> = ({
   hoverEffect = 'glow',
   borderStyle = 'solid',
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
+  animateOnScroll = false
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    setIsMounted(true);
+    
+    if (!animateOnScroll) {
+      setIsVisible(true);
+      return;
+    }
+    
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.unobserve(entry.target);
+      }
+    }, {
+      threshold: 0.1
+    });
+    
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [animateOnScroll]);
+  
   // Base classes
   let classes = 'bg-gray-900/70 backdrop-blur-sm rounded-xl overflow-hidden relative ';
   
@@ -44,15 +79,30 @@ const AccentBox: FC<AccentBoxProps> = ({
   // Combine with additional classes
   classes += className;
   
-  // If we want animation effects
+  // If not mounted yet (server side), render a simple div
+  if (!isMounted) {
+    return (
+      <div className={classes}>
+        <div className="relative z-10">
+          {children}
+        </div>
+      </div>
+    );
+  }
+  
+  // With animations (client side)
   if (animate) {
     return (
       <motion.div
+        ref={ref}
         className={classes}
-        whileHover={{ 
+        initial={{ opacity: animateOnScroll ? 0 : 1, y: animateOnScroll ? 30 : 0 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5 }}
+        whileHover={isVisible ? { 
           y: -5,
           transition: { duration: 0.2 } 
-        }}
+        } : {}}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
@@ -73,15 +123,19 @@ const AccentBox: FC<AccentBoxProps> = ({
   
   // Without animation
   return (
-    <div 
+    <motion.div 
+      ref={ref}
       className={classes}
+      initial={{ opacity: animateOnScroll ? 0 : 1, y: animateOnScroll ? 30 : 0 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5 }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       <div className="relative z-10">
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
