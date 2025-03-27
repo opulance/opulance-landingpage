@@ -1,14 +1,21 @@
 "use client"
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getLinkPath } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [baseUrl, setBaseUrl] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileProductsButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileProductsDropdownRef = useRef<HTMLDivElement>(null);
 
   // Handle scroll event to add backdrop when scrolled
   useEffect(() => {
@@ -29,6 +36,48 @@ const Header = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  
+  // Handle click outside of desktop products dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Close desktop products dropdown when clicking outside
+      if (
+        dropdownRef.current && 
+        buttonRef.current && 
+        !dropdownRef.current.contains(event.target as Node) && 
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setProductsOpen(false);
+      }
+      
+      // Close mobile products dropdown when clicking outside
+      if (
+        mobileProductsDropdownRef.current && 
+        mobileProductsButtonRef.current && 
+        !mobileProductsDropdownRef.current.contains(event.target as Node) && 
+        !mobileProductsButtonRef.current.contains(event.target as Node) &&
+        mobileProductsOpen
+      ) {
+        setMobileProductsOpen(false);
+      }
+      
+      // Close mobile menu when clicking outside
+      if (
+        mobileMenuRef.current &&
+        mobileMenuButtonRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        !mobileMenuButtonRef.current.contains(event.target as Node) &&
+        isMenuOpen
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen, mobileProductsOpen]);
 
   return (
     <header 
@@ -58,6 +107,7 @@ const Header = () => {
               
               <div className="relative group">
                 <button 
+                  ref={buttonRef}
                   onClick={() => setProductsOpen(!productsOpen)}
                   className="text-gray-300 hover:text-teal-400 transition-colors py-2 flex items-center"
                 >
@@ -74,6 +124,7 @@ const Header = () => {
                 
                 {/* Dropdown Menu - hover gradient border */}
                 <div 
+                  ref={dropdownRef}
                   className={`absolute left-0 mt-2 w-48 rounded-md shadow-lg z-50 overflow-hidden transition-all duration-200 ease-in-out transform origin-top-left ring-accent
                              ${productsOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
                   style={{
@@ -84,18 +135,21 @@ const Header = () => {
                     <Link 
                       href={getLinkPath('#ai-platform')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                      onClick={() => setProductsOpen(false)}
                     >
                       AI Agent Platform
                     </Link>
                     <Link 
                       href={getLinkPath('#analytics')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                      onClick={() => setProductsOpen(false)}
                     >
                       Analytics Dashboard
                     </Link>
                     <Link 
                       href={getLinkPath('#sentiment')}
                       className="block px-4 py-2 text-sm text-white hover:bg-teal-500/10 transition-colors"
+                      onClick={() => setProductsOpen(false)}
                     >
                       Sentiment Analyzer
                     </Link>
@@ -133,6 +187,7 @@ const Header = () => {
           
           {/* Mobile menu button */}
           <button 
+            ref={mobileMenuButtonRef}
             className="md:hidden flex items-center text-gray-300" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -154,6 +209,7 @@ const Header = () => {
       
       {/* Mobile menu */}
       <div 
+        ref={mobileMenuRef}
         className={`md:hidden transition-all duration-300 overflow-hidden ${
           isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
         } bg-gray-900/95 backdrop-blur-md border-t border-gray-800`}
@@ -169,29 +225,60 @@ const Header = () => {
             </Link>
             
             <div className="py-2 border-b border-gray-800 pb-3">
-              <button className="flex items-center justify-between w-full text-gray-200 hover:text-teal-400 transition-colors">
+              <button 
+                ref={mobileProductsButtonRef}
+                className="flex items-center justify-between w-full text-gray-200 hover:text-teal-400 transition-colors"
+                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+              >
                 <span>Products</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  className={`transition-transform duration-200 ${mobileProductsOpen ? 'rotate-180' : ''}`}
+                >
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
               </button>
-              <div className="pl-4 mt-2 space-y-2">
+              <div 
+                ref={mobileProductsDropdownRef}
+                className={`pl-4 mt-2 space-y-2 overflow-hidden transition-all duration-200 ${
+                  mobileProductsOpen ? 'max-h-60' : 'max-h-0'
+                }`}
+              >
                 <Link 
                   href={getLinkPath('#ai-consulting')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setMobileProductsOpen(false);
+                    setIsMenuOpen(false);
+                  }}
                 >
                   AI Consulting
                 </Link>
                 <Link 
                   href={getLinkPath('#custom-ai-solutions')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setMobileProductsOpen(false);
+                    setIsMenuOpen(false);
+                  }}
                 >
                   Custom AI Solutions
                 </Link>
                 <Link 
                   href={getLinkPath('#ai-integration')}
                   className="text-gray-300 hover:text-teal-400 block py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setMobileProductsOpen(false);
+                    setIsMenuOpen(false);
+                  }}
                 >
                   AI Integration Services
                 </Link>
