@@ -34,7 +34,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <Link href={getLinkPath('/')} className="text-2xl font-bold text-white">
+            <Link href="/opulance-landingpage" className="text-2xl font-bold text-white">
               <span className="text-gradient-accent">
                 Opulance
               </span>
@@ -44,7 +44,7 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
               <Link 
-                href={getLinkPath('/')}
+                href="/opulance-landingpage"
                 className="text-gray-300 hover:text-teal-400 transition-colors py-2 relative group"
               >
                 Home
@@ -156,7 +156,7 @@ const Header = () => {
         <div className="container mx-auto px-4 py-6 space-y-6">
           <nav className="flex flex-col space-y-4">
             <Link 
-              href={getLinkPath('/')}
+              href="/opulance-landingpage"
               className="text-gray-200 hover:text-teal-400 transition-colors py-2 border-b border-gray-800 pb-3"
               onClick={() => setIsMenuOpen(false)}
             >

@@ -17,13 +17,7 @@ export function getBasePath(): string {
     return ''; // Default to empty on server-side
   }
   
-  // Check if we're on GitHub Pages or using the repository path
-  if (window.location.hostname.includes('github.io') || 
-      window.location.pathname.includes('opulance-landingpage')) {
-    return '/opulance-landingpage';
-  }
-  
-  return ''; // Default to empty for local development
+  return '/opulance-landingpage';
 }
 
 /**
@@ -33,10 +27,16 @@ export function getBasePath(): string {
  */
 export function getAssetPath(path: string): string {
   const basePath = getBasePath();
+  
+  // If there's no basePath, return the path as is
+  if (!basePath) return path;
+  
   // If path already has the basePath, don't add it again
   if (path.startsWith(basePath)) {
     return path;
   }
+  
+  // Otherwise, add the basePath to the path
   return `${basePath}${path}`;
 }
 
@@ -49,20 +49,20 @@ export function getAssetPath(path: string): string {
  * @returns Correctly formatted href path
  */
 export function getLinkPath(href: string): string {
-  const basePath = getBasePath();
-  
   // If it's an anchor link or external link, return as is
   if (href.startsWith('#') || href.startsWith('http')) {
     return href;
   }
   
-  // If it's the root path '/', return just the basePath
+  // Fix for the root path - hard code to the correct value
   if (href === '/') {
-    return basePath;
+    return '/opulance-landingpage';
   }
   
+  const basePath = '/opulance-landingpage';
+  
   // If the href already includes the basePath, don't add it again
-  if (basePath && href.startsWith(basePath)) {
+  if (href.startsWith(basePath)) {
     return href;
   }
   
