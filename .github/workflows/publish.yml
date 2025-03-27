@@ -80,7 +80,7 @@ jobs:
             # Create a simple index.html if none was found
             if [ ! -f "out/index.html" ]; then
               echo "No index.html found, creating a basic one..."
-              cat > out/index.html << 'EOF'
+              cat > out/index.html << EOF
 <!DOCTYPE html>
 <html>
 <head>
