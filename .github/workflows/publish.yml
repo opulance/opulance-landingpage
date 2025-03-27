@@ -33,14 +33,16 @@ jobs:
         run: |
           npm run build
           ls -la
-          pwd
-          mkdir -p out
-          touch out/.nojekyll
+          echo "Build directory contents:"
+          ls -la out/
+          cp -r out/* .
+          touch .nojekyll
+          ls -la
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: .
 
   deploy:
     environment:
