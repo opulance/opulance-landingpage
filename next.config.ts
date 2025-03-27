@@ -5,13 +5,13 @@ const nextConfig: NextConfig = {
    * Enable static exports for GitHub Pages
    */
   output: "export",
-  distDir: "dist",
 
   /**
    * Configure base path for GitHub Pages
    * This should match your repository name
    */
-  basePath: "/opulance-landingpage",
+  basePath: "",
+  trailingSlash: true,
 
   /**
    * Configure image optimization for static export
