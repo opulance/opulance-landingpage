@@ -17,7 +17,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="h-screen flex items-center relative overflow-hidden pt-20 md:pt-0">
+    <section className="h-screen flex items-center relative overflow-hidden pt-24 md:pt-0">
       {/* Particle Background */}
       <ParticleBackground color="#20c9b0" />
       
@@ -33,12 +33,12 @@ const Hero = () => {
       {/* Background with fade */}
       <div className="absolute inset-0 bg-gradient-to-b from-black from-70% via-black via-90% to-transparent z-0"></div>
       
-      <div className="container mx-auto px-4 pt-14 sm:pt-0 max-w-7xl z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mt-4 sm:mt-0">
+      <div className="container mx-auto px-4 pt-20 sm:pt-0 max-w-7xl z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mt-6 sm:mt-0">
           {/* Left side - Content */}
           <div className="z-10 text-left px-0 md:px-2">
             <div className="pr-0 md:pr-4 max-w-lg">
-              <div className="mb-4">
+              <div className="mb-4 mt-4">
                 <motion.span 
                   className="block text-4xl md:text-5xl lg:text-6xl font-bold text-white font-display"
                   initial={{ opacity: 0, y: 20 }}
