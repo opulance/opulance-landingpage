@@ -1,0 +1,13 @@
+OpenGraph Image Requirements:
+
+1. og-image.jpg:
+   - Dimensions: 1200x630 pixels
+   - Content: Opulance AI logo with brand colors (teal gradient)
+   - Background: Dark with subtle tech/AI pattern
+   - Text: "Opulance AI - Building Intelligent Solutions"
+
+2. twitter-image.jpg:
+   - Dimensions: 1200x600 pixels
+   - Similar design to og-image but optimized for Twitter card format
+
+These images should be high quality and represent the Opulance AI brand identity with the futuristic tech theme following the landing page's design. 
