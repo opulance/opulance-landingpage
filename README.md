@@ -1,47 +1,49 @@
 # Opulance AI Landing Page
 
-A modern, responsive landing page for Opulance AI showcasing their artificial intelligence solutions and services.
+Modern, high-performance landing page for Opulance AI, featuring interactive 3D visuals, AI chatbot, and integrated client inquiry system.
 
-## 🚀 Live Demo
+![Opulance AI](public/images/og-image-info.txt)
 
-Visit the live site at [https://opulance.github.io/opulance-landingpage/](https://opulance.github.io/opulance-landingpage/)
+## Features
 
-## ✨ Features
+- **Interactive 3D Visual Elements**: Engaging WebGL-powered animations with performance optimization
+- **AI Chatbot**: Interactive assistant to answer visitor questions
+- **Calendly Integration**: Seamless meeting scheduling
+- **Multi-step Inquiry Form**: Client project inquiry with validation
+- **Performance Optimization**: Intelligent effects based on device capabilities
+- **Responsive Design**: Mobile-first approach for all screen sizes
+- **SEO Optimization**: Meta tags, Schema.org markup, and sitemap
 
-- Modern UI with sleek animations and transitions
-- Fully responsive design that works on all device sizes
-- Interactive components including testimonial carousel, feature showcase, and more
-- Optimized for performance with Next.js static site generation
-- Deployed to GitHub Pages with automated workflow
+## Tech Stack
 
-## 🛠️ Tech Stack
+- [Next.js 14](https://nextjs.org/) with App Router
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/) for styling
+- [Framer Motion](https://www.framer.com/motion/) for animations
+- [React Hook Form](https://react-hook-form.com/) with [Zod](https://github.com/colinhacks/zod) validation
+- [Vercel Analytics](https://vercel.com/analytics) for user tracking
+- [Shadcn/UI](https://ui.shadcn.com/) components
 
-- **Framework**: [Next.js 15](https://nextjs.org/)
-- **UI/Styling**: [TailwindCSS 4](https://tailwindcss.com/)
-- **Animation**: [Framer Motion](https://www.framer.com/motion/)
-- **Deployment**: GitHub Pages via GitHub Actions
-- **Development**: TypeScript
-
-## 🏁 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.0.0 or later
+- Node.js 18.x or higher
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/opulance/opulance-landingpage.git
+   git clone https://github.com/opulance-ai/opulance-landingpage.git
    cd opulance-landingpage
    ```
 
-2. Install dependencies:
+2. Install the dependencies:
    ```bash
    npm install
    # or
-   yarn install
+   yarn
    ```
 
 3. Run the development server:
@@ -53,55 +55,73 @@ Visit the live site at [https://opulance.github.io/opulance-landingpage/](https:
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 🏗️ Project Structure
+## Deployment
+
+The landing page is configured for GitHub Pages deployment:
+
+```bash
+npm run build
+# This creates a static export in the 'out' directory
+```
+
+You can also deploy to Vercel or Netlify with zero configuration.
+
+## Project Structure
 
 ```
-opulance-landingpage/
-├── .github/            # GitHub Actions workflows
-├── public/             # Static assets
-│   ├── images/         # Image assets 
-│   └── .nojekyll       # Prevents GitHub Pages from using Jekyll
+├── public/            # Static assets, images
 ├── src/
-│   ├── app/            # Next.js app router
-│   ├── components/     # React components
-│   │   ├── layout/     # Layout components (header, footer, etc.)
-│   │   └── ui/         # Reusable UI components
-│   └── lib/            # Utility functions
-├── next.config.ts      # Next.js configuration
-└── tailwind.config.ts  # TailwindCSS configuration
+│   ├── app/           # Next.js App Router
+│   │   ├── api/       # API routes
+│   │   ├── page.tsx   # Home page
+│   │   └── layout.tsx # Root layout
+│   ├── components/    # React components
+│   │   ├── layout/    # Layout components
+│   │   └── ui/        # UI components
+│   └── lib/           # Utilities, hooks, types
+├── .documentation/    # Project documentation
+└── ...
 ```
 
-## 🌐 Deployment
+## Customization
 
-This project is configured to automatically deploy to GitHub Pages when changes are pushed to the `main` branch. The deployment process:
+### Branding
 
-1. Builds the project with `next build` (static export)
-2. Creates necessary files for GitHub Pages (like `.nojekyll`)
-3. Pushes the built files to the `gh-pages` branch
-4. GitHub Pages serves the content from this branch
+Update your branding by modifying the following files:
 
-## 🔄 Base Path Handling
+- `src/app/layout.tsx`: Metadata and OpenGraph
+- `public/images/`: Logo and OG images
+- `src/components/SchemaMarkup.tsx`: Company information
 
-The application is configured to work both locally and when deployed to GitHub Pages by:
+### Effects and Performance
 
-1. Using a custom utility function (`getBasePath`) to determine the current environment
-2. Automatically adjusting asset paths and links based on the environment
-3. Supporting both development and production builds with the same codebase
+The application intelligently detects device capabilities and adjusts visual effects accordingly. Users can manually toggle effects using the bottom-right button.
 
-## 📝 License
+## License
 
-This project is open source and available under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🧑‍💻 Development
+## Acknowledgments
 
-### Adding New Components
+- [Three.js](https://threejs.org/) for 3D graphics inspiration
+- [TailwindCSS](https://tailwindcss.com/) for utility-first CSS
+- [Framer Motion](https://www.framer.com/motion/) for animations
 
-To add new components, create files in the `src/components` directory following the existing patterns.
+## Email Integration with FormSpree
 
-### Modifying Styles
+The contact form is integrated with FormSpree for easy form submission without requiring a backend. To set this up:
 
-This project uses TailwindCSS for styling. Modify the `tailwind.config.ts` file to adjust the theme.
+1. Create a [FormSpree account](https://formspree.io/register) (free tier offers 50 submissions/month)
+2. Create a new form in your FormSpree dashboard
+3. Copy your form endpoint ID (it looks like `xrgykyzl`)
+4. Update the `FORMSPREE_ENDPOINT` constant in `src/components/layout/EmailForm.tsx`:
+   ```javascript
+   const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+   ```
+5. Optional: Configure form settings in your FormSpree dashboard:
+   - Add email notifications
+   - Set up integrations with other services
+   - Configure spam protection
+   - Add custom email templates
 
-### Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
+FormSpree works perfectly with static sites hosted on GitHub Pages, with no server-side code required.

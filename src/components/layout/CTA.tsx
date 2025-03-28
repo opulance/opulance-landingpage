@@ -2,10 +2,14 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getLinkPath } from '@/lib/utils';
+import EmailForm from './EmailForm';
+import CalendlyIntegration from './CalendlyIntegration';
 
 const CTA = () => {
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
+  const [activeTab, setActiveTab] = useState<'form' | 'calendly'>('form');
 
   // Show floating CTA after scroll
   useEffect(() => {
@@ -26,21 +30,73 @@ const CTA = () => {
   return (
     <>
       {/* Main CTA Section */}
-      <section className="py-24 bg-gray-900 border-t border-gray-800">
+      <section id="consultation" className="py-24 bg-gray-900 border-t border-gray-800">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               Ready to transform your business with AI?
             </h2>
-            <p className="text-xl text-gray-300 mb-10">
-              Book a free 30-minute consultation call with our AI experts to discuss your specific needs.
+            <p className="text-xl text-gray-300">
+              Get in touch with our experts to discuss your specific needs and schedule a free assessment call.
             </p>
-            <Link 
-              href={getLinkPath('#consultation')}
-              className="btn-accent inline-block px-8 py-4 rounded-lg text-lg"
-            >
-              Book Your Free Consultation
-            </Link>
+          </div>
+          
+          {/* Tab selector */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex p-1 rounded-lg bg-gray-800 border border-gray-700">
+              <button
+                onClick={() => setActiveTab('form')}
+                className={`px-6 py-2 rounded-md transition-all ${
+                  activeTab === 'form' 
+                    ? 'bg-gradient-to-r from-teal-500 to-blue-400 text-black font-medium' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                Project Inquiry
+              </button>
+              <button
+                onClick={() => setActiveTab('calendly')}
+                className={`px-6 py-2 rounded-md transition-all ${
+                  activeTab === 'calendly' 
+                    ? 'bg-gradient-to-r from-teal-500 to-blue-400 text-black font-medium' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                Book a Call
+              </button>
+            </div>
+          </div>
+          
+          {/* Tab content */}
+          <div className="max-w-4xl mx-auto">
+            <AnimatePresence mode="wait">
+              {activeTab === 'form' ? (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <EmailForm />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="calendly"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="rounded-xl overflow-hidden border border-gray-700">
+                    <CalendlyIntegration 
+                      styles={{ height: '700px' }}
+                      className="w-full"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>

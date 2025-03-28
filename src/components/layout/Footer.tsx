@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { getLinkPath } from '@/lib/utils';
+import { getLinkPath, getBasePath } from '@/lib/utils';
 
 const Footer = () => {
   const [baseUrl, setBaseUrl] = useState('');
 
   useEffect(() => {
     // Set the base URL for links
-    setBaseUrl('/opulance-landingpage');
+    setBaseUrl(getBasePath());
   }, []);
 
   return (

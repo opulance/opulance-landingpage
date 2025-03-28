@@ -13,11 +13,19 @@ export function cn(...inputs: ClassValue[]) {
  * Returns an empty string for local development or the appropriate basePath for GitHub Pages
  */
 export function getBasePath(): string {
-  if (typeof window === 'undefined') {
-    return ''; // Default to empty on server-side
+  // Check if we're running in development mode on the client
+  if (typeof window !== 'undefined') {
+    // In development mode, we don't use a basePath
+    if (process.env.NODE_ENV === 'development') {
+      return '';
+    }
+    
+    // In production, use the GitHub Pages path
+    return '/opulance-landingpage';
   }
   
-  return '/opulance-landingpage';
+  // Default to empty on server-side
+  return '';
 }
 
 /**
@@ -54,12 +62,15 @@ export function getLinkPath(href: string): string {
     return href;
   }
   
-  // Fix for the root path - hard code to the correct value
-  if (href === '/') {
-    return '/opulance-landingpage';
-  }
+  const basePath = getBasePath();
   
-  const basePath = '/opulance-landingpage';
+  // If there's no basePath, return the original path
+  if (!basePath) return href;
+  
+  // Fix for the root path
+  if (href === '/') {
+    return basePath;
+  }
   
   // If the href already includes the basePath, don't add it again
   if (href.startsWith(basePath)) {

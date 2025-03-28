@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { getLinkPath } from '@/lib/utils';
+import { getLinkPath, getBasePath } from '@/lib/utils';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +30,7 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     
     // Set the base URL for links
-    setBaseUrl('/opulance-landingpage');
+    setBaseUrl(getBasePath());
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
