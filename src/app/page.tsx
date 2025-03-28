@@ -16,7 +16,7 @@ import FloatingElements from '@/components/ui/FloatingElements';
 import { useRenderingTier } from '@/lib/hooks/useRenderingTier';
 
 export default function Home() {
-  const { effectsEnabled, isLoaded, toggleEffects, shouldEnableEffect } = useRenderingTier();
+  const { effectsEnabled, shouldEnableEffect } = useRenderingTier();
   const [isMounted, setIsMounted] = useState(false);
   
   useEffect(() => {
@@ -90,17 +90,6 @@ export default function Home() {
         </main>
         
         <Footer />
-        
-        {/* Effects Toggle Button with lower z-index to ensure chatbot renders on top */}
-        {isMounted && isLoaded && (
-          <button 
-            onClick={toggleEffects}
-            className="fixed bottom-6 right-24 z-40 bg-gray-900/50 backdrop-blur-sm hover:bg-gray-800/70 transition-colors px-3 py-2 rounded-full text-xs border border-teal-500/30 text-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
-            aria-label={effectsEnabled ? 'Disable visual effects' : 'Enable visual effects'}
-          >
-            {effectsEnabled ? 'Disable Effects' : 'Enable Effects'}
-          </button>
-        )}
         
         {/* Chatbot rendered last to ensure it appears on top */}
         <Chatbot />
