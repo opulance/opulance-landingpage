@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
-import ParticleBackground from '@/components/ui/ParticleBackground';
+import DynamicParticleBackground from '@/components/ui/DynamicParticleBackground';
 import { getAssetPath, getLinkPath } from '@/lib/utils';
 
 // Define possible image paths to try
@@ -109,25 +109,38 @@ const Hero = () => {
         )}
         <div className="relative w-full h-full flex items-center justify-center">
           <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
-            <Image
-              src={imagePath}
-              alt="AI Knowledge Tree"
-              fill
-              className={`object-contain z-0 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-              priority
-              onLoad={() => setImageLoaded(true)}
-              onError={() => {
-                imageAttempts.current += 1;
-                if (imageAttempts.current < maxAttempts) {
-                  // Try the next path
-                  const nextIndex = imageAttempts.current % IMAGE_PATHS.length;
-                  setImagePath(IMAGE_PATHS[nextIndex]);
-                } else {
-                  setImageError(true);
-                }
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ 
+                opacity: imageLoaded ? 1 : 0,
+                scale: imageLoaded ? 1 : 0.95
               }}
-              unoptimized={true}
-            />
+              transition={{ 
+                duration: 2.5, 
+                ease: "easeOut"
+              }}
+              className="w-full h-full"
+            >
+              <Image
+                src={imagePath}
+                alt="AI Knowledge Tree"
+                fill
+                className="object-contain z-0"
+                priority
+                onLoad={() => setImageLoaded(true)}
+                onError={() => {
+                  imageAttempts.current += 1;
+                  if (imageAttempts.current < maxAttempts) {
+                    // Try the next path
+                    const nextIndex = imageAttempts.current % IMAGE_PATHS.length;
+                    setImagePath(IMAGE_PATHS[nextIndex]);
+                  } else {
+                    setImageError(true);
+                  }
+                }}
+                unoptimized={true}
+              />
+            </motion.div>
           </div>
         </div>
       </div>
@@ -137,16 +150,16 @@ const Hero = () => {
   return (
     <section className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16 md:py-0">
       {/* Particle Background */}
-      <ParticleBackground color="#20c9b0" />
+      <DynamicParticleBackground color="#20c9b0" />
       
       {/* Animated gradient blob */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl animate-blob"></div>
-      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-teal-400/5 rounded-full blur-3xl animate-blob" aria-hidden="true"></div>
+      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-teal-400/10 rounded-full blur-3xl animate-blob animation-delay-2000" aria-hidden="true"></div>
+      <div className="absolute -bottom-40 left-1/3 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl animate-blob animation-delay-4000" aria-hidden="true"></div>
       
       {/* Additional accent elements */}
-      <div className="absolute top-1/4 right-1/4 w-20 h-20 bg-teal-500/30 rounded-full blur-xl animate-accent-pulse"></div>
-      <div className="absolute bottom-1/4 left-1/5 w-16 h-16 bg-teal-500/20 rounded-full blur-xl animate-accent-pulse animation-delay-2000"></div>
+      <div className="absolute top-1/4 right-1/4 w-20 h-20 bg-teal-500/30 rounded-full blur-xl animate-accent-pulse" aria-hidden="true"></div>
+      <div className="absolute bottom-1/4 left-1/5 w-16 h-16 bg-teal-500/20 rounded-full blur-xl animate-accent-pulse animation-delay-2000" aria-hidden="true"></div>
       
       {/* Background with fade */}
       <div className="absolute inset-0 bg-gradient-to-b from-black from-70% via-black via-90% to-transparent z-0"></div>
@@ -161,7 +174,7 @@ const Hero = () => {
                   className="block text-4xl md:text-5xl lg:text-6xl font-bold text-white font-display"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
                 >
                   Advanced AI
                 </motion.span>
@@ -169,7 +182,7 @@ const Hero = () => {
                   className="block text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 font-display"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
+                  transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
                 >
                   Solutions
                 </motion.span>
@@ -177,7 +190,7 @@ const Hero = () => {
                   className="block text-4xl md:text-5xl lg:text-6xl font-bold text-white font-display"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.6 }}
+                  transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
                 >
                   For Your Business
                 </motion.span>
@@ -186,7 +199,7 @@ const Hero = () => {
                 className="text-base md:text-lg text-gray-300 mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.9 }}
+                transition={{ duration: 1.5, delay: 0.9, ease: "easeInOut" }}
               >
                 Leverage cutting-edge artificial intelligence to transform your operations,
                 enhance customer experiences, and drive innovation.
@@ -195,7 +208,7 @@ const Hero = () => {
                 className="flex flex-col sm:flex-row gap-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 1.2 }}
+                transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
               >
                 <Link 
                   href={getLinkPath('#contact')}
@@ -218,7 +231,7 @@ const Hero = () => {
             className="relative mt-8 md:mt-0 h-[400px] sm:h-[450px] md:h-[550px] lg:h-[600px] px-0 md:px-0 md:col-span-1 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            transition={{ duration: 1.8, delay: 2.5, ease: "easeInOut" }}
           >
             <motion.div 
               className="w-full h-full flex items-center justify-center"
@@ -242,7 +255,7 @@ const Hero = () => {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
+        transition={{ duration: 1.5, delay: 2, ease: "easeInOut" }}
       >
         <svg className="w-8 h-8 text-teal-400 animate-accent-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />

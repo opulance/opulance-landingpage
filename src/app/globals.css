@@ -344,3 +344,62 @@
 .animate-redirect-progress {
   animation: redirect-progress 3s linear forwards;
 }
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob,
+  .animate-accent-pulse,
+  .animate-bounce,
+  .animate-pulse,
+  .animate-spin {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .transition-all,
+  .transition-colors,
+  .transition-opacity,
+  .transition-transform,
+  .transition-shadow {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Improved focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #14B8A6 !important;
+  outline-offset: 4px !important;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.3);
+}
+
+/* Only show focus styles for keyboard navigation */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Make sure buttons have proper focus states */
+button:focus-visible,
+a:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
+/* Improve touch target sizes for mobile */
+@media (max-width: 768px) {
+  button, 
+  a,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure interactive elements have enough tap space */
+  .interactive-element {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
