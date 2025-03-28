@@ -7,52 +7,133 @@ import { useState, useEffect, useRef } from 'react';
 import ParticleBackground from '@/components/ui/ParticleBackground';
 import { getAssetPath, getLinkPath } from '@/lib/utils';
 
+// Define possible image paths to try
+const IMAGE_PATHS = [
+  '/images/ai-tree.png',                     // Base path
+  '/opulance-landingpage/images/ai-tree.png' // GitHub Pages path
+];
+
 const Hero = () => {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imagePath, setImagePath] = useState('/images/ai-tree.png');
+  const [imagePath, setImagePath] = useState(IMAGE_PATHS[0]);
   const imageAttempts = useRef(0);
-  const maxAttempts = 3;
+  const maxAttempts = IMAGE_PATHS.length * 2; // Try each path multiple times
 
   // Set image path on client-side and handle loading
   useEffect(() => {
+    // Only run in browser
+    if (typeof window === 'undefined') return;
+
     // Reset error state when component mounts
     setImageError(false);
     setImageLoaded(false);
+    imageAttempts.current = 0;
     
-    // Set the correct image path with basePath if needed
-    const correctPath = getAssetPath('/images/ai-tree.png');
-    setImagePath(correctPath);
+    // Try to load the dynamic path first
+    const dynamicPath = getAssetPath('/images/ai-tree.png');
     
-    // Preload the image
-    const imgElement = new window.Image();
-    imgElement.src = correctPath;
+    // Add the dynamic path to our list of paths to try if it's not already there
+    if (!IMAGE_PATHS.includes(dynamicPath)) {
+      IMAGE_PATHS.unshift(dynamicPath);
+    }
     
-    imgElement.onload = () => {
-      setImageLoaded(true);
-      setImageError(false);
-    };
+    // Set initial path
+    setImagePath(IMAGE_PATHS[0]);
     
-    imgElement.onerror = () => {
-      // If image fails to load, increment attempts and retry with a delay
-      if (imageAttempts.current < maxAttempts) {
-        imageAttempts.current += 1;
-        setTimeout(() => {
-          // Try direct path as fallback
-          const fallbackPath = '/images/ai-tree.png';
-          setImagePath(fallbackPath);
-        }, 500);
-      } else {
+    // Create a function to try loading the image with different paths
+    const tryLoadingImage = (index = 0) => {
+      if (index >= IMAGE_PATHS.length) {
         setImageError(true);
+        return;
       }
+      
+      const path = IMAGE_PATHS[index];
+      const img = new window.Image();
+      
+      // Set up load/error handlers
+      img.onload = () => {
+        setImagePath(path);
+        setImageLoaded(true);
+        setImageError(false);
+      };
+      
+      img.onerror = () => {
+        imageAttempts.current += 1;
+        if (imageAttempts.current < maxAttempts) {
+          // Try the next path after a slight delay
+          setTimeout(() => {
+            tryLoadingImage((index + 1) % IMAGE_PATHS.length);
+          }, 300);
+        } else {
+          setImageError(true);
+        }
+      };
+      
+      // Start loading
+      img.src = path;
     };
+    
+    // Start the loading process
+    tryLoadingImage();
     
     return () => {
-      // Clean up
-      imgElement.onload = null;
-      imgElement.onerror = null;
+      // No cleanup needed as we're using local functions
     };
   }, []);
+
+  // Custom image component with fallbacks
+  const AITreeImage = () => {
+    if (imageError) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="text-teal-400 p-8 rounded-lg bg-teal-900/20 backdrop-blur-sm border border-teal-500/20 animated-border">
+            <p className="text-xl">AI Visualization</p>
+            <div className="w-40 h-40 mx-auto mt-4 rounded-full bg-teal-500/20 animate-pulse flex items-center justify-center">
+              <svg className="w-20 h-20 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    return (
+      <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
+        {/* Show loading indicator until image is loaded */}
+        {!imageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="w-40 h-40 rounded-full bg-teal-500/20 animate-pulse"></div>
+          </div>
+        )}
+        <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
+          <Image
+            src={imagePath}
+            alt="AI Knowledge Tree"
+            fill
+            className={`object-contain z-0 scale-105 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              objectPosition: 'center 60%'
+            }}
+            priority
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              imageAttempts.current += 1;
+              if (imageAttempts.current < maxAttempts) {
+                // Try the next path
+                const nextIndex = imageAttempts.current % IMAGE_PATHS.length;
+                setImagePath(IMAGE_PATHS[nextIndex]);
+              } else {
+                setImageError(true);
+              }
+            }}
+            unoptimized={true}
+          />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section className="h-screen flex items-center relative overflow-hidden pt-24 md:pt-0">
@@ -151,47 +232,7 @@ const Hero = () => {
                 ease: "easeInOut" 
               }}
             >
-              {imageError ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-teal-400 p-8 rounded-lg bg-teal-900/20 backdrop-blur-sm border border-teal-500/20 animated-border">
-                    <p className="text-xl">Please save the tree image to:</p>
-                    <p className="font-mono mt-2 mb-4">public/images/ai-tree.png</p>
-                    <div className="w-40 h-40 mx-auto rounded-full bg-teal-500/20 animate-pulse"></div>
-                  </div>
-                </div>
-              ) : (
-                <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
-                  {/* Show loading indicator until image is loaded */}
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 flex items-center justify-center z-10">
-                      <div className="w-40 h-40 rounded-full bg-teal-500/20 animate-pulse"></div>
-                    </div>
-                  )}
-                  <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
-                    <Image
-                      src={imagePath}
-                      alt="AI Knowledge Tree"
-                      fill
-                      className={`object-contain z-0 scale-105 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                      style={{
-                        objectPosition: 'center 60%'
-                      }}
-                      priority
-                      onLoad={() => setImageLoaded(true)}
-                      onError={() => {
-                        if (imageAttempts.current < maxAttempts) {
-                          imageAttempts.current += 1;
-                          // Try without basePath as fallback
-                          setImagePath('/images/ai-tree.png');
-                        } else {
-                          setImageError(true);
-                        }
-                      }}
-                      unoptimized={true}
-                    />
-                  </div>
-                </div>
-              )}
+              <AITreeImage />
             </motion.div>
           </motion.div>
         </div>
