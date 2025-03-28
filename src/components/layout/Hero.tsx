@@ -231,7 +231,7 @@ const Hero = () => {
             className="relative mt-8 md:mt-0 h-[400px] sm:h-[450px] md:h-[550px] lg:h-[600px] px-0 md:px-0 md:col-span-1 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.8, delay: 2.5, ease: "easeInOut" }}
+            transition={{ duration: 1.8, delay: 2.0, ease: "easeInOut" }}
           >
             <motion.div 
               className="w-full h-full flex items-center justify-center"
