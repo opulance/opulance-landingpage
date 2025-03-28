@@ -100,43 +100,42 @@ const Hero = () => {
     }
     
     return (
-      <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
+      <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
         {/* Show loading indicator until image is loaded */}
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
             <div className="w-40 h-40 rounded-full bg-teal-500/20 animate-pulse"></div>
           </div>
         )}
-        <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
-          <Image
-            src={imagePath}
-            alt="AI Knowledge Tree"
-            fill
-            className={`object-contain z-0 scale-105 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            style={{
-              objectPosition: 'center 60%'
-            }}
-            priority
-            onLoad={() => setImageLoaded(true)}
-            onError={() => {
-              imageAttempts.current += 1;
-              if (imageAttempts.current < maxAttempts) {
-                // Try the next path
-                const nextIndex = imageAttempts.current % IMAGE_PATHS.length;
-                setImagePath(IMAGE_PATHS[nextIndex]);
-              } else {
-                setImageError(true);
-              }
-            }}
-            unoptimized={true}
-          />
+        <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px]">
+            <Image
+              src={imagePath}
+              alt="AI Knowledge Tree"
+              fill
+              className={`object-contain z-0 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              priority
+              onLoad={() => setImageLoaded(true)}
+              onError={() => {
+                imageAttempts.current += 1;
+                if (imageAttempts.current < maxAttempts) {
+                  // Try the next path
+                  const nextIndex = imageAttempts.current % IMAGE_PATHS.length;
+                  setImagePath(IMAGE_PATHS[nextIndex]);
+                } else {
+                  setImageError(true);
+                }
+              }}
+              unoptimized={true}
+            />
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <section className="h-screen flex items-center relative overflow-hidden pt-24 md:pt-0">
+    <section className="min-h-screen flex items-center relative overflow-hidden pt-24 pb-16 md:py-0">
       {/* Particle Background */}
       <ParticleBackground color="#20c9b0" />
       
@@ -153,7 +152,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black from-70% via-black via-90% to-transparent z-0"></div>
       
       <div className="container mx-auto px-4 pt-20 sm:pt-0 max-w-7xl z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mt-6 sm:mt-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
           {/* Left side - Content */}
           <div className="z-10 text-left px-0 md:px-2">
             <div className="pr-0 md:pr-4 max-w-lg">
@@ -216,13 +215,13 @@ const Hero = () => {
           
           {/* Right side - Image */}
           <motion.div 
-            className="relative h-full min-h-[450px] md:min-h-[650px] px-0 md:px-0 md:col-span-1 flex items-center justify-center"
+            className="relative mt-8 md:mt-0 h-[400px] sm:h-[450px] md:h-[550px] lg:h-[600px] px-0 md:px-0 md:col-span-1 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
             <motion.div 
-              className="absolute top-0 left-0 w-full h-full md:relative md:w-full md:h-full flex items-center justify-center"
+              className="w-full h-full flex items-center justify-center"
               animate={{ 
                 y: [0, -10, 0], 
               }}
