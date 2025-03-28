@@ -3,17 +3,55 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ParticleBackground from '@/components/ui/ParticleBackground';
 import { getAssetPath, getLinkPath } from '@/lib/utils';
 
 const Hero = () => {
   const [imageError, setImageError] = useState(false);
-  const [imagePath, setImagePath] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imagePath, setImagePath] = useState('/images/ai-tree.png');
+  const imageAttempts = useRef(0);
+  const maxAttempts = 3;
 
-  // Set image path on client-side
+  // Set image path on client-side and handle loading
   useEffect(() => {
-    setImagePath(getAssetPath('/images/ai-tree.png'));
+    // Reset error state when component mounts
+    setImageError(false);
+    setImageLoaded(false);
+    
+    // Set the correct image path with basePath if needed
+    const correctPath = getAssetPath('/images/ai-tree.png');
+    setImagePath(correctPath);
+    
+    // Preload the image
+    const imgElement = new window.Image();
+    imgElement.src = correctPath;
+    
+    imgElement.onload = () => {
+      setImageLoaded(true);
+      setImageError(false);
+    };
+    
+    imgElement.onerror = () => {
+      // If image fails to load, increment attempts and retry with a delay
+      if (imageAttempts.current < maxAttempts) {
+        imageAttempts.current += 1;
+        setTimeout(() => {
+          // Try direct path as fallback
+          const fallbackPath = '/images/ai-tree.png';
+          setImagePath(fallbackPath);
+        }, 500);
+      } else {
+        setImageError(true);
+      }
+    };
+    
+    return () => {
+      // Clean up
+      imgElement.onload = null;
+      imgElement.onerror = null;
+    };
   }, []);
 
   return (
@@ -100,7 +138,7 @@ const Hero = () => {
             className="relative h-full min-h-[450px] md:min-h-[650px] px-0 md:px-0 md:col-span-1 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 2, delay: 0.2 }}
+            transition={{ duration: 1, delay: 0.2 }}
           >
             <motion.div 
               className="absolute top-0 left-0 w-full h-full md:relative md:w-full md:h-full flex items-center justify-center"
@@ -119,24 +157,40 @@ const Hero = () => {
                     <p className="text-xl">Please save the tree image to:</p>
                     <p className="font-mono mt-2 mb-4">public/images/ai-tree.png</p>
                     <div className="w-40 h-40 mx-auto rounded-full bg-teal-500/20 animate-pulse"></div>
-              </div>
+                  </div>
                 </div>
               ) : (
                 <div className="relative w-full h-full overflow-hidden flex items-center justify-center glassmorphism">
+                  {/* Show loading indicator until image is loaded */}
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="w-40 h-40 rounded-full bg-teal-500/20 animate-pulse"></div>
+                    </div>
+                  )}
                   <div className="relative w-full h-full md:max-w-full lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] pt-16">
                     <Image
-                      src={imagePath || '/images/ai-tree.png'}
+                      src={imagePath}
                       alt="AI Knowledge Tree"
                       fill
-                      className="object-contain z-0 scale-105"
+                      className={`object-contain z-0 scale-105 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
                       style={{
                         objectPosition: 'center 60%'
                       }}
                       priority
-                      onError={() => setImageError(true)}
+                      onLoad={() => setImageLoaded(true)}
+                      onError={() => {
+                        if (imageAttempts.current < maxAttempts) {
+                          imageAttempts.current += 1;
+                          // Try without basePath as fallback
+                          setImagePath('/images/ai-tree.png');
+                        } else {
+                          setImageError(true);
+                        }
+                      }}
+                      unoptimized={true}
                     />
-              </div>
-            </div>
+                  </div>
+                </div>
               )}
             </motion.div>
           </motion.div>
