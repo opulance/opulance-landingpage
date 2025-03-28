@@ -1,6 +1,6 @@
-import { ReportHandler } from 'web-vitals';
+import type { Metric } from 'web-vitals';
 
-const reportWebVitals = (onPerfEntry?: ReportHandler) => {
+const reportWebVitals = (onPerfEntry?: (metric: Metric) => void) => {
   if (onPerfEntry && typeof onPerfEntry === 'function' && typeof window !== 'undefined') {
     // Only import the library when it's used in the browser
     import('web-vitals').then(({ onCLS, onFID, onFCP, onLCP, onTTFB }) => {
@@ -13,4 +13,4 @@ const reportWebVitals = (onPerfEntry?: ReportHandler) => {
   }
 };
 
-export default reportWebVitals; 
+export default reportWebVitals;
